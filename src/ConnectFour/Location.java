@@ -6,11 +6,15 @@ public class Location {
   private int y;
   private int z;
   
-  public Location (int x, int y, int z){
+  /**
+  create location with x, y and z coördinates
+  */
+  public Location location(int x, int y, int z){
   }
   
   /**
-  No clue what to do with this
+  ??
+  @parameter argmument
   */
   public int compareTo(Location argument){
   }
@@ -34,18 +38,21 @@ public class Location {
   
   /**
   set the x cooirdinate of the location
+  @parameter x
   */
   public void setX(int x){
   }
   
    /**
   set the y cooirdinate of the location
+  @parameter y
   */
   public void setY(int Y){
   }
   
    /*
   set the z cooirdinate of the location
+  @parameter z
   */
   public void setZ(int z){
   }
