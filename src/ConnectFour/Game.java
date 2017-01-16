@@ -6,19 +6,30 @@ public class Game {
   */
   private Player[] players;
   
-  private static board;
+  /**
+  the board
+  */
+  private static Board board;
   
+  /**
+  Index of the current player
+  */
   private int currentPlayer;
   
  /**
  creates a new game object with players
+ @ parameter s0
+              first player
+ @ parameter s1
+              second player
  */
   public Game(Player p1, Player p2){
   }
   
   /**
   starts the game
-  Asks after each ended game if the user want to continue. Continues until the user does not want to play anymore.
+  Asks after each ended game if the user want to continue. Continues until 
+  the user does not want to play anymore.
   */
   public void Start(){
   }
