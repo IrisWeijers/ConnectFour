@@ -6,7 +6,6 @@ package ConnectFour;
  * These are pre-defined by the game rules
  * Contains a 3D dimensional arrays of locations
  * to be fill with players or chip colours to provide a better visual representation
- * @author - Philip Gough
  * 
  */
 
