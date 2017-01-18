@@ -1,5 +1,12 @@
 package ConnectFour;
+/**
+* Computer Player
+* 
+*/
+public class AIPlayer extends Player {
 
-public class AIPlayer {
-
+  
+  
+  
+  
 }
