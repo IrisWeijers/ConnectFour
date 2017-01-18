@@ -10,6 +10,7 @@ import java.util.Scanner;
 public class HumanPlayer {
   
   public HumanPlayer(LocationState playerState) {
+	  super(playerState);
   
   }
 
