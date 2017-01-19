@@ -15,6 +15,25 @@ public class Board {
   * In the constructor we create and initialise the board using the following parameter
   */
   public Board(int col, int row,int level){
+	  
+		if (col > 0) {
+			noCols = col;
+		} else {
+			noCols = 4;
+		}
+		if (row > 0) {
+			noRows = row;
+		} else {
+			noCols = 4;
+		}
+	        if (level > 0) {
+			noLevels = level;
+		} else {
+			noCols = 4;
+		}
+	  
+		board = new LocationState[col][row];
+		clear();
     
    }
   
@@ -22,6 +41,12 @@ public class Board {
   * This method sets each space on the board to empty
   */
   public void reset(){
+	  for (int i = 0; i < board.length; i++)
+			for (int j = 0; j < board[0].length; j++)
+				for(int k =0; k < board[0].length; k++)
+				board[i][j][k] = LocationState.EMPTY;
+
+	}
   
   }
 /**
