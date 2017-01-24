@@ -7,7 +7,7 @@ import java.util.Scanner;
  * via the console or the GUI
  * @author Sam
  */
-public class HumanPlayer {
+public class HumanPlayer extends Player{
   
   public HumanPlayer(LocationState playerState) {
 	  super(playerState);
@@ -20,10 +20,30 @@ public class HumanPlayer {
   @Override
   
   public int getMove(Board board) {
+	  
+
+		System.out.print(board.toString());
+		System.out.print("What column would " + "you like to place chip in"
+				+ " \n ");
+		Scanner userInput = new Scanner(System.in);
+		int position = userInput.nextInt();
+		if (position >= 0 && position < board.getNoCols()) {
+
+			return position;
+
+		} else {
+
+			System.out.print("Invalid position entered" + "\n");
+			getMove(board);
+			return 0;
+		
+
+	}
     
     
   }
-  
-  
-  
 }
+
+  
+  
+
