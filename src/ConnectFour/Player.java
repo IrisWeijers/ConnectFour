@@ -33,6 +33,7 @@ Creates a new Player object
   */
   public LocationState getLocationState() {
         return ls;
+  }
     
   /**
    Determines the field for the next move.
