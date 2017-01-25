@@ -13,10 +13,10 @@ package ConnectFour;
 
 public class Board {
 
-	private LocationState	board[][][];
-	private int				noCols;
-	private int             noRows;
-	private int             noLevels;
+	private LocationState[][][] board;
+	private  static int				noCols = 4  ;
+	private  static int             noRows = 4;
+	private  static int             noLevels = 4 ;
 
 	/**
 	 * 
@@ -29,7 +29,13 @@ public class Board {
 	 * The number of levels in the board
 	 * @see LocationState
 	 */
+	
+	
+	  //----- BOARD CONSTRUCTOR-----//
   public Board(int col, int row, int level){
+	  
+	  // It limits. entries within the board boundaries.
+	  
 	  
 		if (col > 0) {
 			noCols = col;
@@ -52,17 +58,29 @@ public class Board {
     
    }
   
+ 
   /**
   * This method sets each space on the board to empty
   */
   public void reset(){
 	  for (int i = 0; i < board.length; i++)
 			for (int j = 0; j < board[0].length; j++)
-				for(int k =0; k < board[0].length; k++)
+				for(int k =0; k < board[1].length; k++)
 				board[i][j][k] = LocationState.EMPTY;
 
 	}
   
+  public Board deepCopy() {
+		Board copy = new Board(noCols, noRows, noLevels);
+		 for (int i = 0; i < board.length; i++){
+				for (int j = 0; j < board[0].length; j++){
+					for(int k =0; k < board[1].length; k++) {
+					copy.board[i][j][k] = this.board[i][j][k];
+				}
+			}
+		 }
+		return copy;
+}
   
 /**
 * This method gets the location state (i.e player chip colour) at a particular location
@@ -86,7 +104,10 @@ public class Board {
   *
   */
   
-  
+  /*
+   * @require location is in the board
+   * @ensure getLocationState(location).equals(state);
+   */
   public boolean setLocationState(Location location, LocationState state) {
 	  
 	  if (location.getX() < getNoCols() && location.getY() < getNoRows() && location.getZ() < getNoLevels()){
@@ -224,11 +245,11 @@ public class Board {
 	 * @param
 	 * @param
 	 * @return
-	 */
+	 */	
 	public boolean checkHorizontal(LocationState Player, Board board) {
 		
 		int stretch = 0;
-		for (int row = board.getNoRows(); row >= 0; row--) {
+		for (int row = board.getNoRows(); row >= 0; row++) {
 			for (int col = 0; col < board.getNoCols(); col++) {
 				for (int level = 0; level < board.getNoLevels(); level++) {
 				if (board.getBoard()[col][row][level] == Player) {
@@ -351,11 +372,23 @@ public class Board {
 
   
   
-    public boolean gameOver(){
+    public boolean gameOver(Board board){
+    	return Player.checkForFour(Player, board);
+    	
   }
   
-  public boolean isFull(){
-  }
-  
+    public boolean isFull(LocationState Player, Board board) {
+		boolean full = true;
+		for (int row = 0; row <board.getNoCols(); row++) {
+			for (int col = 0; col < board.getNoRows(); col++) {
+				for (int level = 0; level < board.getNoLevels(); level++) {
+					if (board.getBoard()[col][row][level] == LocationState.EMPTY) {
+						full = false;
+					}
+				}
+			}
+		}
+		return full;
+	}
 
 }
