@@ -149,7 +149,7 @@ public class BoardTest {
 		board.setLocationState(new Location(4,4,3), LocationState.YELLOW);
 		board.setLocationState(new Location(4,4,4), LocationState.YELLOW);
 		
-		assertTrue(board.isFull(Player, board));
+		assertTrue(board.isFull(null, board));
 		
 		
 	}

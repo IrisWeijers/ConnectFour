@@ -180,7 +180,7 @@ public class Game {
 			
 			int col = currentPlayer.getMove(board);
 
-			if (!checkColumnFull(col)) {
+			if (!board.checkColumnFull(col)) {
 
 				for (int i = board.getNoRows() - 1; i >= 0; i--) {
 					Location chosenLocation = new Location(col, i);

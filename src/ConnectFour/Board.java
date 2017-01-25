@@ -372,10 +372,10 @@ public class Board {
 
   
   
-    public boolean gameOver(Board board){
-    	return Player.checkForFour(Player, board);
-    	
-  }
+//    public boolean gameOver(Board board){
+//    	return Player.checkForFour(Player, board);
+//    	
+//  }
   
     public boolean isFull(LocationState Player, Board board) {
 		boolean full = true;

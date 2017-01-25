@@ -21,30 +21,28 @@ player's color
 	public Player(LocationState playerState) {
 		super();
 		this.playerState = playerState;
+	}
 
-<<<<<<< HEAD
   /**
 Creates a new Player object
 */  
-  public Player player(String name, LocationState ls){
-  }
+//  public Player player(String name, LocationState ls){
+//  }
   
   /**
   get name of player
   */
-  public String getName() {
-    return name;
-  }
+//  public String getName() {
+//    return name;
+//  }
   
   /**
   get playing color of player
   */
   public LocationState getLocationState() {
-        return ls;
+        return playerState;
   }
-=======
-	}
- 
+
 
 
 	/**
@@ -90,11 +88,6 @@ Creates a new Player object
 	public void setName(String name) {
 		this.name = name;
 	}
-
-
-
->>>>>>> branch 'master' of https://github.com/IrisWeijers/ConnectFour.git
-    
  
 
 }
