@@ -246,15 +246,15 @@ public class Board {
 	 * @param
 	 * @return
 	 */	
-	public boolean checkHorizontal(LocationState Player, Board board) {
+	public boolean checkHorizontal(LocationState player, Board board) {
 		
 		int stretch = 0;
-		for (int row = board.getNoRows(); row >= 0; row++) {
+		for (int row = 0; row < board.getNoRows(); row++) {
 			for (int col = 0; col < board.getNoCols(); col++) {
 				for (int level = 0; level < board.getNoLevels(); level++) {
-				if (board.getBoard()[col][row][level] == Player) {
+				if (board.getBoard()[col][row][level] == player) {
 					stretch = 1;
-					while (board.getBoard()[++col][row][++level] == Player) {
+					while (board.getBoard()[++col][row][level] == player) {
 						stretch++;
 						if (stretch == 4) {
 							return true ;
@@ -351,7 +351,7 @@ public class Board {
 		public boolean checkDiagRight(LocationState Player, Board board) {
 
 			int stretch = 0;
-			for (int col = board.getNoCols() ; col > 2; col--) {
+			for (int col = 0; col< board.getNoCols() ; col++) {
 				for (int row = 0; row < 3; row++) {
 					for (int level = 0; level < 3; level++) {
 					if (board.getBoard()[col][row][level] == Player) {

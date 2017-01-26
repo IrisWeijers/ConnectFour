@@ -38,6 +38,8 @@ public class BoardTest {
 		board.setLocationState(new Location(0,0,0), LocationState.YELLOW);
 		board.setLocationState(new Location(0,1,0), LocationState.YELLOW);
 		board.setLocationState(new Location(0,2,0), LocationState.YELLOW);
+		assertFalse(board.checkHorizontal(LocationState.YELLOW, board));
+		
 		board.setLocationState(new Location(0,3,0), LocationState.YELLOW);
 		System.out.println("Horizontal\n" + board);
 		assertTrue(board.checkHorizontal(LocationState.YELLOW, board));
@@ -50,6 +52,8 @@ public class BoardTest {
 		board.setLocationState(new Location(0,0,0), LocationState.YELLOW);
 		board.setLocationState(new Location(1,0,0), LocationState.YELLOW);
 		board.setLocationState(new Location(2,0,0), LocationState.YELLOW);
+		assertFalse(board.checkVertical(LocationState.YELLOW, board));
+		
 		board.setLocationState(new Location(3,0,0), LocationState.YELLOW);
 		System.out.println("Vertical\n" + board);
 		assertTrue(board.checkVertical(LocationState.YELLOW, board));
@@ -62,6 +66,8 @@ public class BoardTest {
 		board.setLocationState(new Location(0,0,0), LocationState.YELLOW);
 		board.setLocationState(new Location(1,1,0), LocationState.YELLOW);
 		board.setLocationState(new Location(2,2,0), LocationState.YELLOW);
+		assertFalse(board.checkDiagLeft(LocationState.YELLOW, board));
+		
 		board.setLocationState(new Location(3,3,0), LocationState.YELLOW);
 		System.out.println("DiagLeft\n" + board);
 		assertTrue(board.checkDiagLeft(LocationState.YELLOW, board));
@@ -74,6 +80,8 @@ public class BoardTest {
 		board.setLocationState(new Location(0,3,0), LocationState.YELLOW);
 		board.setLocationState(new Location(1,2,0), LocationState.YELLOW);
 		board.setLocationState(new Location(2,1,0), LocationState.YELLOW);
+		assertFalse(board.checkDiagRight(LocationState.YELLOW, board));
+		
 		board.setLocationState(new Location(3,0,0), LocationState.YELLOW);
 		System.out.println("DiagRight\n" + board);
 		assertTrue(board.checkDiagRight(LocationState.YELLOW, board));
