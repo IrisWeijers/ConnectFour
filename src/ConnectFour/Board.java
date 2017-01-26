@@ -32,7 +32,7 @@ public class Board {
 	
 	
 	  //----- BOARD CONSTRUCTOR-----//
-  public Board(int col, int row, int level){
+  public Board(int row, int col, int level){
 	  
 	  // It limits. entries within the board boundaries.
 	  
@@ -53,7 +53,7 @@ public class Board {
 			noCols = 4;
 		}
 	  
-		board = new LocationState[col][row][level];
+		board = new LocationState[row][col][level];
 		reset();
     
    }
@@ -71,7 +71,7 @@ public class Board {
 	}
   
   public Board deepCopy() {
-		Board copy = new Board(noCols, noRows, noLevels);
+		Board copy = new Board(noRows, noCols, noLevels);
 		 for (int i = 0; i < board.length; i++){
 				for (int j = 0; j < board[0].length; j++){
 					for(int k =0; k < board[1].length; k++) {
@@ -110,7 +110,7 @@ public class Board {
    */
   public boolean setLocationState(Location location, LocationState state) {
 	  
-	  if (location.getX() < getNoCols() && location.getY() < getNoRows() && location.getZ() < getNoLevels()){
+	  if (location.getX() < getNoRows() && location.getY() < getNoCols() && location.getZ() < getNoLevels()){
 			board[location.getX()][location.getY()][location.getZ()] = state;
 			return true;
 		}
@@ -134,11 +134,11 @@ public class Board {
 			{
 				for (int k = 0; k < noLevels; k++)
 				{
-			
-				s += (board[j][i][k] + "\t");
+					s += (board[j][i][k] + "\t");
+				}
+				s += "\n";
+			}
 			s += "\n";
-		     }
-		   }
 		}
 
 		return s;
