@@ -63,7 +63,7 @@ public class BoardTest {
 		board.setLocationState(new Location(1,1,0), LocationState.YELLOW);
 		board.setLocationState(new Location(2,2,0), LocationState.YELLOW);
 		board.setLocationState(new Location(3,3,0), LocationState.YELLOW);
-		System.out.println("DiagLeft" + board);
+		System.out.println("DiagLeft\n" + board);
 		assertTrue(board.checkDiagLeft(LocationState.YELLOW, board));
 		assertFalse(board.checkDiagLeft(LocationState.RED, board));
 	}
@@ -75,7 +75,7 @@ public class BoardTest {
 		board.setLocationState(new Location(1,2,0), LocationState.YELLOW);
 		board.setLocationState(new Location(2,1,0), LocationState.YELLOW);
 		board.setLocationState(new Location(3,0,0), LocationState.YELLOW);
-		System.out.println("DiagRight" + board);
+		System.out.println("DiagRight\n" + board);
 		assertTrue(board.checkDiagRight(LocationState.YELLOW, board));
 		assertFalse(board.checkDiagRight(LocationState.RED, board));
 		
@@ -84,14 +84,21 @@ public class BoardTest {
 	@Test
 	public void testIsFull(){
 		Board board = new Board(4,4,4);
+		
+		board.setLocationState(new Location(0,3,0), LocationState.YELLOW);
+		board.setLocationState(new Location(1,2,0), LocationState.YELLOW);
+		board.setLocationState(new Location(2,1,0), LocationState.YELLOW);
+		board.setLocationState(new Location(3,0,0), LocationState.YELLOW);
+		assertFalse(board.isFull(null, board));
+		
 		for (int x = 0;x < 4; x++){
 			for (int y = 0;y < 4; y++){
 				for (int z = 0;z < 4; z++){
 					board.setLocationState(new Location(x,y,z), LocationState.RED);
-					System.out.println("full" + board);
 				}
 			}
 		}
+		System.out.println("full\n" + board);
 		assertTrue(board.isFull(null, board));
 	}
 
