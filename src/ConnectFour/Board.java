@@ -356,7 +356,7 @@ public class Board {
 
 			int stretch = 0;
 			for (int col = board.getNoCols()-1 ; 0 <= col; col--) {
-				for (int row = 0; row < 3; row++) {
+				for (int row = 0 ; row <= board.getNoRows(); row++ ) {
 					for (int level = 0; level < 3; level++) {
 					if (board.getBoard()[row][col][level] == Player) {
 						for (int tmpRow = row, tmpCol = col, tmplevel = level; board.getBoard()[--tmpCol][++tmpRow][tmplevel] == Player;) {
