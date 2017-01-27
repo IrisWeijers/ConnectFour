@@ -254,7 +254,7 @@ public class Board {
 				for (int level = 0; level < board.getNoLevels(); level++) {
 				if (board.getBoard()[row][col][level] == player) {
 					stretch = 1;
-					while (board.getBoard()[row][col++][level] == player) {
+					while (board.getBoard()[row][++col][level] == player) {
 						stretch++;
 						if (stretch == 4) {
 							return true ;
@@ -286,7 +286,7 @@ public class Board {
 				for (int row = 0; row < board.getNoRows(); row++) {
 					for (int level = 0; level < board.getNoLevels() ; level++) {
 					if (board.getBoard()[row][col][level] == player) {
-						while (board.getBoard()[row++][col][level] == player) {
+						while (board.getBoard()[++row][col][level] == player) {
 							stretch++;
 							if (stretch == 4) {
 								return true;

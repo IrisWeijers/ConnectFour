@@ -3,6 +3,8 @@ package ConnectFour;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Scanner;
+import ConnectFour.Board;
+
 
 public class HumanTUI implements Observer {
 
@@ -12,18 +14,18 @@ public class HumanTUI implements Observer {
 	private static final String Separator = "      ";
 	private static final String Zline = "          z = 1              z = 2              z = 3              z = 4";
 
-	public HumanTUI (Board b) {
-		this.board = b;
+	public HumanTUI (Board s) {
+		this.board = s;
 		board.addObserver(this);
 	}
 
 	public String toString() {
-		String b = "";
-		for (int y = 0; y < board.DIM; y++) {
+		String s = "";
+		for (int i = 0; i < board.getNoRows(); i++) {
 			String row = "";
-			for (int z = 0; z < board.DIM; z++) {
+			for (int j = 0; j < board.getNoCols(); j++) {
 				int xcounter = 0;
-				for (int x = 0; x < board.DIM; x++) {
+				for (int k = 0; k < board.getNoLevels(); k++){
 					if (x == 0) {
 						row = row + Separator + board.getField(board.getIndex(x, y, z)).toString();
 						xcounter ++;
@@ -35,14 +37,14 @@ public class HumanTUI implements Observer {
 					}
 				}
 			}
-			if (b.equals("")) {
-				b = "\n" + row;
+			if (s.equals("")) {
+				s = "\n" + row;
 			} else {
-				b = b + "\n" + RowSeparator + "\n" + row;
+				s = s + "\n" + RowSeparator + "\n" + row;
 			}
 		}
-		b = b + "\n" + Zline;
-		return b + "\n";
+		s = s + "\n" + Zline;
+		return s + "\n";
 	}
 
 	@Override
@@ -52,8 +54,8 @@ public class HumanTUI implements Observer {
 	}
 
 	public static void main(String[] args) {
-		Board b = new Board();
-		TUIView v = new TUIView(b);
+		Board s = new Board();
+		HumanTUI v = new HumanTUI(s);
 		b.playField(0, Mark.X);
 	}
 }
