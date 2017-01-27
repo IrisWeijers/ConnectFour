@@ -252,9 +252,9 @@ public class Board {
 		for (int row = 0; row < board.getNoRows(); row++) {
 			for (int col = 0; col < board.getNoCols(); col++) {
 				for (int level = 0; level < board.getNoLevels(); level++) {
-				if (board.getBoard()[col][row][level] == player) {
+				if (board.getBoard()[row][col][level] == player) {
 					stretch = 1;
-					while (board.getBoard()[++col][row][level] == player) {
+					while (board.getBoard()[row][col++][level] == player) {
 						stretch++;
 						if (stretch == 4) {
 							return true ;
@@ -279,14 +279,14 @@ public class Board {
 	 */
   
  
-	  public boolean checkVertical(LocationState Player, Board board) {
+	  public boolean checkVertical(LocationState player, Board board) {
 
 			int stretch = 0;
 			for (int col = 0; col < board.getNoCols(); col++) {
 				for (int row = 0; row < board.getNoRows(); row++) {
 					for (int level = 0; level < board.getNoLevels() ; level++) {
-					if (board.getBoard()[col][row][level] == Player) {
-						while (board.getBoard()[col][row++][level] == Player) {
+					if (board.getBoard()[row][col][level] == player) {
+						while (board.getBoard()[row++][col][level] == player) {
 							stretch++;
 							if (stretch == 4) {
 								return true;
@@ -321,7 +321,7 @@ public class Board {
 			for (int col = 0; col < board.getNoCols(); col++) {
 				for (int row = 0; row < board.getNoRows() ; row++) {
 					for (int level = 0; level < board.getNoLevels() ; level++) {
-					if (board.getBoard()[col][row][level] == Player) {
+					if (board.getBoard()[row][col][level] == Player) {
 						for (int tmpRow = row, tmpCol = col, tmplevel = level; board.getBoard()[tmpCol++][tmpRow++][tmplevel++] == Player;) {
 							if (++ stretch == 4) {
 								return true ;
@@ -351,10 +351,10 @@ public class Board {
 		public boolean checkDiagRight(LocationState Player, Board board) {
 
 			int stretch = 0;
-			for (int col = 0; col< board.getNoCols() ; col++) {
+			for (int col = board.getNoCols()-1 ; 0 <= col; col--) {
 				for (int row = 0; row < 3; row++) {
 					for (int level = 0; level < 3; level++) {
-					if (board.getBoard()[col][row][level] == Player) {
+					if (board.getBoard()[row][col][level] == Player) {
 						for (int tmpRow = row, tmpCol = col, tmplevel = level; board.getBoard()[tmpCol--][tmpRow++][tmplevel++] == Player;) {
 							stretch++;
 							if (stretch == 4) {
@@ -382,7 +382,7 @@ public class Board {
 		for (int row = 0; row <board.getNoCols(); row++) {
 			for (int col = 0; col < board.getNoRows(); col++) {
 				for (int level = 0; level < board.getNoLevels(); level++) {
-					if (board.getBoard()[col][row][level] == LocationState.EMPTY) {
+					if (board.getBoard()[row][col][level] == LocationState.EMPTY) {
 						full = false;
 					}
 				}

@@ -33,6 +33,21 @@ public class BoardTest {
 	}
 	
 	@Test
+	public void testReset(){
+	Board board = new Board (4,4,4);
+	for (int x = 0;x < 4; x++){
+		for (int y = 0;y < 4; y++){
+			for (int z = 0;z < 4; z++){
+				board.setLocationState(new Location(x,y,z), LocationState.RED);
+			}
+		}
+	}
+	board.reset();
+	assertEquals(LocationState.EMPTY, board.getBoard());
+	
+	}
+	
+	@Test
 	public void testCheckHorizontal() {
 		Board board = new Board(4,4,4);
 		board.setLocationState(new Location(0,0,0), LocationState.YELLOW);
