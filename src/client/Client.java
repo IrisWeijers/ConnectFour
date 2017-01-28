@@ -1,10 +1,12 @@
-package ConnectFour;
+package client;
 
 /////fffffff
 	import java.io.IOException;
 	import java.net.InetAddress;
 	import java.net.Socket;
 	import java.net.UnknownHostException;
+
+import ConnectFour.Peer;
 
 	/**
 	 * Client class for a simple client-server application

@@ -1,4 +1,4 @@
-package ConnectFour;
+package client;
 
 public class ClientHandler {
 
