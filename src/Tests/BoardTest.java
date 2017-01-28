@@ -45,7 +45,7 @@ public class BoardTest {
 	System.out.println("pre-reset\n" + board);
 	board.reset();
 	System.out.println("reset\n" + board);
-	assertTrue(board.getBoard().equals(LocationState.EMPTY));
+	assertTrue(board.isEmpty());
 	
 	}
 	

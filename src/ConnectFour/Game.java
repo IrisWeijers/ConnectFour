@@ -2,24 +2,30 @@ package ConnectFour;
 
 import java.util.Scanner;
 
+import ConnectFour.AIPlayer;
+import ConnectFour.Board;
+
 public class Game {
+	
+	public static final int NUMBER_PLAYERS = 2;
+	
   /**
   list of players
   */
-  private Player human ,AI;
-  /**
+	private Player[] players;
+ 
+	/**
   Index of the current player
   */
-
-  private Player currentPlayer;
+	private int currentPlayer;
   
   /**
   the board
   */
-  private static Board board;
+	private Board board;
 
   //The initial number of turns
-  private int numTurns = 0;
+	private int numTurns = 0;
   
  /**
  creates a new game object with players
@@ -31,15 +37,103 @@ public class Game {
 	/**
 	 * Constructor for client.
 	 */
-	public Game(Player human, Player AI, Board board) {
-		super();
-		this.human = human;
-		this.AI = AI;
-		this.board = board;
-		this.currentPlayer = human;
-
-	}
+	public Game(Player p0, Player p1, Board board) {
+		board = new Board(4,4,4);
+        players = new Player[NUMBER_PLAYERS];
+        players[0] = p0;
+        players[1] = p1;
+        currentPlayer = 0;
+    }
   
+	/**
+	 * Getter method for board object
+	 * 
+	 * @return
+	 */
+	public Board getBoard() {
+		return board;
+	}
+
+//	/**
+//	 * Getter method for human object
+//	 * 
+//	 * @return
+//	 */
+//	public Player getHuman() {
+//		return human;
+//	}
+//
+//	/**
+//	 * Setter method for human player
+//	 * 
+//	 * @param human
+//	 */
+//	public void setHuman(Player human) {
+//		this.human = human;
+//	}
+//
+//	/**
+//	 * Getter method for computer player object
+//	 * 
+//	 * @return
+//	 */
+//	public Player getAI() {
+//		return AI;
+//	}
+//	/**
+//	 * Setter method for computer player
+//	 * 
+//	 * @param computer
+//	 */
+//	public void setAI(IPlayer AI) {
+//		this.AI = AI;
+//	}
+
+	/**
+	 * Getter method for currentPlayer
+	 * 
+	 * @return
+	 */
+	public int getCurrentPlayer() {
+		return currentPlayer;
+	}
+
+	/**
+	 * Setter method for current player
+	 * 
+	 * @param currentPlayer
+	 */
+	public void setCurrentPlayer(int currentPlayer) {
+		this.currentPlayer = currentPlayer;
+	}
+
+	/**
+	 * Getter method for numTurns
+	 * 
+	 * @return - Total turns taken
+	 */
+	public int getNumTurns() {
+		return numTurns;
+	}
+
+	/**
+	 * Setter method for numTurns
+	 * 
+	 * @param numTurns
+	 */
+	public void setNumTurns(int numTurns) {
+		this.numTurns = numTurns;
+	}
+
+	/**
+	 * Setter method for board object
+	 * 
+	 * @param board
+	 */
+	public void setBoard(Board board) {
+		this.board = board;
+	}
+
 
 	/**
 	 * Method the initializes all necessary objects to play the game. Sets the
@@ -257,95 +351,7 @@ public class Game {
 				
 			}
 			
-			/**
-			 * Getter method for board object
-			 * 
-			 * @return
-			 */
-			public Board getBoard() {
-				return board;
-			}
-
-			/**
-			 * Getter method for human object
-			 * 
-			 * @return
-			 */
-			public Player getHuman() {
-				return human;
-			}
-
-			/**
-			 * Setter method for human player
-			 * 
-			 * @param human
-			 */
-			public void setHuman(Player human) {
-				this.human = human;
-			}
-
-			/**
-			 * Getter method for computer player object
-			 * 
-			 * @return
-			 */
-			public Player getAI() {
-				return AI;
-			}
-			/**
-			 * Setter method for computer player
-			 * 
-			 * @param computer
-			 */
-			public void setAI(IPlayer AI) {
-				this.AI = AI;
-			}
-
-			/**
-			 * Getter method for currentPlayer
-			 * 
-			 * @return
-			 */
-			public Player getCurrentPlayer() {
-				return currentPlayer;
-			}
-
-			/**
-			 * Setter method for current player
-			 * 
-			 * @param currentPlayer
-			 */
-			public void setCurrentPlayer(Player currentPlayer) {
-				this.currentPlayer = currentPlayer;
-			}
-
-			/**
-			 * Getter method for numTurns
-			 * 
-			 * @return - Total turns taken
-			 */
-			public int getNumTurns() {
-				return numTurns;
-			}
-
-			/**
-			 * Setter method for numTurns
-			 * 
-			 * @param numTurns
-			 */
-			public void setNumTurns(int numTurns) {
-				this.numTurns = numTurns;
-			}
-
-			/**
-			 * Setter method for board object
-			 * 
-			 * @param board
-			 */
-			public void setBoard(Board board) {
-				this.board = board;
-			}
-
+			
 
 
 		}
