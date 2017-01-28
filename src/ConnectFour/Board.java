@@ -1,7 +1,7 @@
 package ConnectFour;
 
 import java.util.Observable;
-import ConnectFour.Location;
+
 
 public class Board extends Observable {
 	public static int DIM = 4;
@@ -49,6 +49,8 @@ public class Board extends Observable {
 						}
 					}
 			  }
+			  this.setChanged();
+				this.notifyObservers();
 
 			}
 		  
@@ -64,7 +66,19 @@ public class Board extends Observable {
 				return copy;
 		}
 	 
-	
+	 public void setLocation(int i, int j, LocationState player) {
+			int k;
+			int tmp = 0;
+			for (k = 0; k < getDIM(); k++) {
+				if (getLocation(i, j, k) == LocationState.EMPTY) {
+					tmp = k;
+					k = getDIM();
+				}
+			}
+			board[i][j][tmp] = player;
+			this.setChanged();
+			this.notifyObservers();
+		}
 	   
 	   /**
 	    * This method take the location object as a parameter
@@ -80,10 +94,10 @@ public class Board extends Observable {
 	     * @require location is in the board
 	     * @ensure getLocationState(location).equals(player);
 	     */
-	    public boolean setLocationState(Location location, LocationState player) {
+	    public boolean setLocationState(int i, int j, int k, LocationState player) {
 	  	  
-	  	  if (location.getX() < DIM && location.getY() < DIM && location.getZ() < DIM){
-	  			board[location.getX()][location.getY()][location.getZ()] = player;
+	  	  if (i < DIM && j < DIM && k < DIM){
+	  			board[i][j][k] = player;
 	  			return true;
 	  		}
 	  		return false;
@@ -91,8 +105,8 @@ public class Board extends Observable {
 	    
 	    }
 	    
-	    public boolean isLocation(Location location) {
-			return location.getX() < DIM && location.getX() >= 0 && location.getY() < DIM && location.getY() >= 0 && location.getZ() < DIM && location.getZ() >= 0;
+	    public boolean isLocation(int i, int j, int k) {
+			return i < DIM && i >= 0 && j < DIM && j >= 0 && k < DIM && k >= 0;
 		}
 	    
 	    
@@ -101,32 +115,13 @@ public class Board extends Observable {
 		 *@param location 
 		 *@return Location player as LocationState
 		 */
-		public LocationState getLocationState(Location location, LocationState player) {
-			if (isLocation(location)) {
-				return board[location.getX()][location.getY()][location.getZ()];
-			} else {
-				return null;
-			}
-
-		}
 		
 		
 		public LocationState getLocation(int i, int j, int k) {
 			return board[i][j][k];
 		}
 		
-		public void setLocation(int i , int j, LocationState player) {
-			int k;
-			int tmp = 0;
-			for(k = 0; k < getDIM(); k++) {
-				if ( getLocation(i,j,k) == LocationState.EMPTY){
-					tmp = k;
-					k= getDIM();
-				}
-			}
-			board[i][j][k]= player;
-
-		}
+		
 		
 		
 //		public void setLocation(Location player) {
@@ -147,7 +142,7 @@ public class Board extends Observable {
 		 * @param
 		 * @return
 		 */	
-		public boolean checkHorizontal(LocationState player, Board board) {
+		public boolean checkHorizontal(LocationState player) {
 			
 			int stretch = 0;
 			for (int i = 0; i < DIM; i++) {
@@ -155,7 +150,7 @@ public class Board extends Observable {
 					for (int k = 0; k < DIM; k++) {
 					if (board[i][j][k] == player) {
 						stretch = 1;
-						while (j < DIM && board.getBoard()[i][++j][k] == player) {
+						while (j < DIM && board[i][++j][k] == player) {
 							stretch++;
 							if (stretch == 4) {
 								return true ;
@@ -179,15 +174,15 @@ public class Board extends Observable {
 		 */
 	  
 	 
-		  public boolean checkVertical(LocationState player, Board board) {
+		  public boolean checkVertical(LocationState player ) {
 
 				int stretch = 0;
 				for (int i = 0; i < DIM; i++) {
 					for (int j = 0; j < DIM; j++){
 						for (int k = 0; k < DIM ; k++) {
-						if (board.getBoard()[i][j][k] == player) {
+						if (board[i][j][k] == player) {
 							stretch=1;
-							while (i < DIM && board.getBoard()[++i][j][k] == player) {
+							while (i < DIM && board[++i][j][k] == player) {
 								stretch++;
 								if (stretch == 4) {
 									return true;
@@ -204,7 +199,7 @@ public class Board extends Observable {
 				
 	  }
 		  
-<<<<<<< HEAD
+
 		  public boolean CheckLevel(LocationState player) {
 				boolean fullLevel;
 				for (int i = 0; i < DIM; i++) {
@@ -252,27 +247,27 @@ public class Board extends Observable {
 				return false;
 			}
 		  
-		  public boolean hasRowHeight(LocationState player) {
-				boolean fullRowHeight;
+		  public boolean hasRowLevel(LocationState player) {
+				boolean fullRowLevel;
 				for (int i = 0; i < DIM; i++) {
-					fullRowHeight = true;
+					fullRowLevel = true;
 					for (int ik = 0; ik < DIM; ik++) {
 						if (board[ik][i][ik] != player) {
-							fullRowHeight = false;
+							fullRowLevel = false;
 						}
 					}
-					if (fullRowHeight) {
+					if (fullRowLevel) {
 						return true;
 					}
 				}
 				for (int i = 0; i < DIM; i++) {
-					fullRowHeight = true;
+					fullRowLevel = true;
 					for (int ik = 0; ik < DIM; ik++) {
 						if (board[ik][i][DIM - ik - 1] != player) {
-							fullRowHeight = false;
+							fullRowLevel = false;
 						}
 					}
-					if (fullRowHeight) {
+					if (fullRowLevel) {
 						return true;
 					}
 				}
@@ -280,34 +275,34 @@ public class Board extends Observable {
 			}
 		  
 		  
-		  public boolean hasColumnHeight(LocationState player) {
-				boolean fullColumnHeight;
+		  public boolean hasColumnLevel(LocationState player) {
+				boolean fullColumnLevel;
 				for (int j = 0; j < DIM; j++) {
-					fullColumnHeight = true;
+					fullColumnLevel = true;
 					for (int jk = 0; jk < DIM; jk++) {
 						if (board[j][jk][jk] != player) {
-							fullColumnHeight = true;
+							fullColumnLevel = true;
 						}
 					}
-					if (fullColumnHeight) {
+					if (fullColumnLevel) {
 						return true;
 					}
 				}
 				for (int j = 0; j < DIM; j++) {
-					fullColumnHeight = true;
+					fullColumnLevel = true;
 					for (int jk = 0; jk < DIM; jk++) {
 						if (board[j][jk][DIM - jk - 1] != player) {
-							fullColumnHeight = true;
+							fullColumnLevel = true;
 						}
 					}
-					if (fullColumnHeight) {
+					if (fullColumnLevel) {
 						return true;
 					}
 				}
 				return false;
 			}
 		  
-		  public boolean hasRowColumnHeight(LocationState player) {
+		  public boolean hasRowColumnLevel(LocationState player) {
 				// booleans indicate start of diagonal in bottom level
 				boolean diagTopLeft = true;
 				boolean diagTopRight = true;
@@ -354,41 +349,15 @@ public class Board extends Observable {
 			}
 
 			public boolean isWinner(LocationState player) {
-				return checkHorizontal(player,board) || checkVertical(player ,board) || checkLevel(player, board) 
-						|| hasRowHeight(m) || hasRowColumn(m) || hasColumnHeight(m) 
-						|| hasRowColumnHeight(m);
+				return checkHorizontal(player) || checkVertical(player) || CheckLevel(player) 
+						|| hasRowLevel(player) || hasRowColumn(player) || hasColumnLevel(player) 
+						|| hasRowColumnLevel(player);
 
 			}
 
-=======
-		  public boolean isFull(){
-			  
-		  }
->>>>>>> refs/remotes/origin/master
-	    /** String representation of the object Board
-	    *
-	    *
-	    *
-	    */
-	    
-	    public String toString() {
-	  	  
-	  		String s = "";
-	  		for (int i = 0; i < DIM; i++)
-	  		{
-	  			for (int j = 0; j < DIM; j++)
-	  			{
-	  				for (int k = 0; k < DIM; k++)
-	  				{
-	  					s += (board[j][i][k] + "\t");
-	  				}
-	  				s += "\n";
-	  			}
-	  			s += "\n";
-	  		}
+		 
 
-	  		return s;
-	    }
+	    
 	    
 	    /**
 		 * Getter method for two dimensional array
@@ -420,10 +389,7 @@ public class Board extends Observable {
 	    //@requires m == LocationState.YELLOW | m == LocationState.RED;
 	    //@ ensures \result == this.hasRow(m) || this.hasColumn(m) | this.hasDiagonal(m);
 	    /*@ pure */
-	    public boolean isWinner(LocationState m) {
-	    	// TODO: implement, see exercise P-4.19
-	    	return this.checkHorizontal(m, board) || this.checkVertical(m, board) || this.checkDiagonal(m, board);
-	    }
+	   
 
 	    /**
 	     * Returns true if the game has a winner. This is the case when one of the
@@ -433,13 +399,7 @@ public class Board extends Observable {
 	     */
 	    //@ ensures \result == isWinner(LocationState.YELLOW) | \result == isWinner(LocationState.RED);
 	    /*@pure*/
-	    public boolean hasWinner() {
-	    	// TODO: implement, see exercise P-4.19
-	    	if (isWinner(LocationState.YELLOW) | isWinner(LocationState.RED)){
-	    		return true;
-	    	}
-	        return false;
-	    }	
+	   
 	    
 	   
 		  /**
@@ -448,7 +408,7 @@ public class Board extends Observable {
 			 * @return
 			 */
 			public boolean isDraw() {
-				if (board.isFull() && !hasWinner()){
+				if (isFull() && !hasWinner()){
 		    		return true;
 		    	}
 		        return false;
