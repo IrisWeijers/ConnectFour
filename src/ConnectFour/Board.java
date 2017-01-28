@@ -10,6 +10,8 @@ public class Board extends Observable {
 	 * Creates an empty board.
 	 *  
 	 */
+	
+	///
 	//----- BOARD CONSTRUCTOR-----//
 	public Board(){
 		
