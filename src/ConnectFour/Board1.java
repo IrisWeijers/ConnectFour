@@ -10,12 +10,12 @@ public class Board1 {
 	//----- BOARD CONSTRUCTOR-----//
 	public Board1(){
 		
-		board = new Location[DIM][DIM][DIM];
+		board = new LocationState[DIM][DIM][DIM];
 		
 		for (int i = 0; i < DIM; i++ ){
 			for (int j =0; j< DIM; j++) {
 				for (int k = 0 ; k < DIM; k++){
-					board[i][j][k].LocationState.EMPTY;
+					board[i][j][k]= LocationState.EMPTY;
 				}
 			}
 		}
@@ -25,7 +25,7 @@ public class Board1 {
 		/**
 		  * This method sets each space on the board to empty
 		  */
-		  public void reset(){
+		  public void reset();{
 			  for (int i = 0; i < DIM; i++) {
 					for (int j = 0; j < DIM; j++) {
 						for(int k =0; k < DIM; k++) {
@@ -47,6 +47,11 @@ public class Board1 {
 				 }
 				return copy;
 		}
+		
+	}
+
+	private void reset() {
+		// TODO Auto-generated method stub
 		
 	}
 	
