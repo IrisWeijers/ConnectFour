@@ -204,6 +204,7 @@ public class Board extends Observable {
 				
 	  }
 		  
+<<<<<<< HEAD
 		  public boolean CheckLevel(LocationState player) {
 				boolean fullLevel;
 				for (int i = 0; i < DIM; i++) {
@@ -359,6 +360,11 @@ public class Board extends Observable {
 
 			}
 
+=======
+		  public boolean isFull(){
+			  
+		  }
+>>>>>>> refs/remotes/origin/master
 	    /** String representation of the object Board
 	    *
 	    *
@@ -403,7 +409,50 @@ public class Board extends Observable {
 				this.board = board;
 			}
 
+		/**
+	     * Checks if the mark m has won. A mark wins if it controls at
+	     * least one row, column or diagonal.
+	     *
+	     * @param m
+	     *            the mark of interest
+	     * @return true if the mark has won
+	     */
+	    //@requires m == LocationState.YELLOW | m == LocationState.RED;
+	    //@ ensures \result == this.hasRow(m) || this.hasColumn(m) | this.hasDiagonal(m);
+	    /*@ pure */
+	    public boolean isWinner(LocationState m) {
+	    	// TODO: implement, see exercise P-4.19
+	    	return this.checkHorizontal(m, board) || this.checkVertical(m, board) || this.checkDiagonal(m, board);
+	    }
+
+	    /**
+	     * Returns true if the game has a winner. This is the case when one of the
+	     * marks controls at least one row, column or diagonal.
+	     *
+	     * @return true if the game has a winner.
+	     */
+	    //@ ensures \result == isWinner(LocationState.YELLOW) | \result == isWinner(LocationState.RED);
+	    /*@pure*/
+	    public boolean hasWinner() {
+	    	// TODO: implement, see exercise P-4.19
+	    	if (isWinner(LocationState.YELLOW) | isWinner(LocationState.RED)){
+	    		return true;
+	    	}
+	        return false;
+	    }	
 	    
+	   
+		  /**
+			 * Checks for a drawn game.
+			 * 
+			 * @return
+			 */
+			public boolean isDraw() {
+				if (board.isFull() && !hasWinner()){
+		    		return true;
+		    	}
+		        return false;
+			}  
 		
 	}
 
