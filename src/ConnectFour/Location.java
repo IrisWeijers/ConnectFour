@@ -1,10 +1,14 @@
 package ConnectFour;
 
+import ConnectFour.Board;
+
 public class Location implements Comparable<Location> {
 
   private int x;
   private int y;
   private int z;
+  private LocationState player;
+  private LocationState[][][] board;
   
   /**
   create location with x, y and z coördinates
@@ -100,5 +104,9 @@ public class Location implements Comparable<Location> {
 	public String toString() {
 		return "Location [x=" + x + ", y=" + y + ",z=" + z +"]";
 	}
+
+public LocationState getLocation(Location location) {
+			return board[location.getX()][location.getY()][location.getZ()] ;
+		}
 
 }

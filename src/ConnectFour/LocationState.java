@@ -15,14 +15,14 @@ public enum LocationState {
   * @return the other locationstate is this locationstate is not EMPTY or EMPTY
   */
 	
-	public LocationState other() {
-        if (this == RED) {
-            return YELLOW;
-        } else if (this == YELLOW) {
-            return RED;
-        } else {
-            return EMPTY;
-        }
-
- }
+//	public LocationState other() {
+//        if (this == RED) {
+//            return YELLOW;
+//        } else if (this == YELLOW) {
+//            return RED;
+//        } else {
+//            return EMPTY;
+//        }
+//
+// }
 }
