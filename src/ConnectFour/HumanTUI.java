@@ -7,64 +7,105 @@ import ConnectFour.Board;
 
 
 public class HumanTUI implements Observer {
+	private String Boardgraphic;
 
 	private Board board;
 	
-	private static final String RowSeparator = "     ---+---+---+---    ---+---+---+---    ---+---+---+---    ---+---+---+---"
-			+ "     -----+-----+-----+-----";
-	private static final String Separator = "      ";
-	private static final String Zline = "          z = 1              z = 2              z = 3              z = 4";
-
+	public static final String EMPTY = "   ";
+	public static final String YELLOW = "YELLOW";
+	public static final String RED = "RED";
+	
 	public HumanTUI (Board s) {
 		this.board = s;
-		board.addObserver(this);
+		Boardgraphic = boardtostring(board);
 	}
 	
-	public String boardtoString(Board b){
+	public String boardtostring(Board brd1){
 		int height = 0 ;
 		int row = 0;
 		int col = 0;
 		int layer = 0; 
-	}
-
-	public String toString() {
-		String s = "";
-		for (int i = 0; i < board.getNoRows(); i++) {
-			String row = "";
-			for (int j = 0; j < board.getNoCols(); j++) {
-				int xcounter = 0;
-				for (int k = 0; k < board.getNoLevels(); k++){
-					if (x == 0) {
-						row = row + Separator + board.getField(board.getIndex(x, y, z)).toString();
-						xcounter ++;
-					} else if (z == 3 && x == 3) {
-						row = row + " | " + board.getField(board.getIndex(x, y, z)).toString() 
-						+ Separator + "(0," + y + ")" + "|" + "(1," + y + ")" + "|" + "(2," + y + ")" + "|" + "(3," + y + ")";
-					} else {
-						row = row + " | " + board.getField(board.getIndex(x, y, z)).toString();
-					}
+		
+		final int levelLength = "level".length();
+		
+		Boardgraphic = "";
+		
+		// HACK: (int) ((3 * brd1.getDIM() + brd1.getDIM() + 1) - levelLength)/2 calculates how many 
+				// spaces does layer i need to its left and its right for it 
+				// to be centered on top of its board
+		
+		
+		for(int i = 0; i < brd1.getDIM(); i++) {
+			for(int j = 0; j < (int) ((3 * brd1.getDIM() + brd1.getDIM() + 1) - levelLength)/2; j++) {
+					Boardgraphic = Boardgraphic + " ";
 				}
+			Boardgraphic = Boardgraphic + "layer " + i;
+			for(int j = 0; j < (int) ((3 * brd1.getDIM() + brd1.getDIM() + 1) - levelLength)/2; j++) {
+					Boardgraphic = Boardgraphic + " ";
+				}
+			Boardgraphic = Boardgraphic + "  ";	
 			}
-			if (s.equals("")) {
-				s = "\n" + row;
-			} else {
-				s = s + "\n" + RowSeparator + "\n" + row;
+		Boardgraphic = Boardgraphic + "\n";
+		for(int k = 0; k < brd1.getDIM(); k++) {
+			for(int i = 0; i < brd1.getDIM(); i++) {
+				for(int j = 0; j < brd1.getDIM(); j++) {
+						Boardgraphic = Boardgraphic + "+---";
+					}
+				Boardgraphic = Boardgraphic + "+  ";
+				}
+				Boardgraphic = Boardgraphic + "\n";
+				for(int i = 0; i < brd1.getDIM(); i++) {
+					for(int j = 0; j < brd1.getDIM(); j++) {
+						Boardgraphic = Boardgraphic + "|" + locationtostring(col,row,height);
+						col++;
+					}
+				height++;
+				col = 0;
+				Boardgraphic = Boardgraphic + "|  "; 
 			}
+			Boardgraphic = Boardgraphic + "\n";
+			height = 0;
+			row++;
 		}
-		s = s + "\n" + Zline;
-		return s + "\n";
+		for(int i = 0; i < brd1.getDIM(); i++) {
+			for(int j = 0; j < brd1.getDIM(); j++) {
+				Boardgraphic = Boardgraphic + "+---";
+			}
+			Boardgraphic = Boardgraphic + "+  ";
+		}
+		Boardgraphic = Boardgraphic + "\n";
+		return Boardgraphic;
 	}
+		
+		
+	public String locationtostring(int i , int j, int k) {
+		if (board.getLocation(i, j, k) == LocationState.EMPTY) {
+			return EMPTY;
+		} else if (board.getLocation(i, j, k) == LocationState.YELLOW) {
+			return YELLOW;
+		} else if (board.getLocation(i, j, k) == LocationState.RED) {
+			return RED;
+		}
+		return EMPTY;
+	}
+	
 
+	
+	
+	
 	@Override
 	public void update(Observable arg0, Object arg1) {
-		System.out.println(this.toString());
+		System.out.println(this.boardtostring(board));
 
 	}
 
-	public static void main(String[] args) {
-		Board s = new Board();
-		HumanTUI v = new HumanTUI(s);
-		b.playField(0, Mark.X);
+	
+	public Board getBoard() {
+		return board;
 	}
-}
+
+	
+	}
+
+
 
