@@ -1,6 +1,6 @@
 package ConnectFour;
 
-
+import ConnectFour.Strategy;
 
 /**
 Abstract class for keeping a player in the Connect Four game.
@@ -12,38 +12,51 @@ player's name
 */
  private String name;
 
+
 /**
 player's color
 */
- private LocationState playerState;
+ private LocationState playerstate;
  // Player has an enum which is a colour
  
-	public Player(LocationState playerState) {
-		super();
-		this.playerState = playerState;
+ /**
+Creates a new Player object
+*/
+	public Player(LocationState player, String n) {
+		
+		 playerstate = player;
+		 name = n;
+	}
+	
+	public Player(LocationState player, Strategy strategy){
+		playerstate = player;
+		name = strategy.getName();
 	}
 
-  /**
-Creates a new Player object
-*/  
-//  public Player player(String name, LocationState ls){
-//  }
-  
+
   /**
   get name of player
   */
-//  public String getName() {
-//    return name;
-//  }
+  public String getName() {
+    return name;
+  }
   
+	
+	/**
+	 * This method returns the location state (i.e. colour) associated with the
+	 * player.
+	 * 
+	 * @return playerState - colour of players piece as LocationState.
   /**
   get playing color of player
   */
   public LocationState getLocationState() {
-        return playerState;
+        return playerstate;
   }
 
 
+
+	public abstract int[] determineMove();
 
 	/**
 	 * This method should return the next move for a Connect 4 game. Assume
@@ -66,25 +79,21 @@ Creates a new Player object
 	 * @return playerState - colour of players piece as LocationState.
 	 */
 	public LocationState getPlayerState() {
-		return playerState;
+		return playerstate;
 	}
 	
 	/**
 	 * @param playerState
 	 */
-	public void setPlayerState(LocationState playerState) {
-		this.playerState = playerState;
+	public void setPlayerState(LocationState playerstate) {
+		this.playerstate = playerstate;
 	}
 
 	@Override
 	public String toString() {
-		return playerState.toString();
+		return playerstate.toString();
 	}
 	
-	public String getName() {
-		return name;
-	}
-
 	public void setName(String name) {
 		this.name = name;
 	}

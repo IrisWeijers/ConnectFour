@@ -9,6 +9,7 @@ import ConnectFour.Board;
 public class HumanTUI implements Observer {
 
 	private Board board;
+	
 	private static final String RowSeparator = "     ---+---+---+---    ---+---+---+---    ---+---+---+---    ---+---+---+---"
 			+ "     -----+-----+-----+-----";
 	private static final String Separator = "      ";
@@ -17,6 +18,13 @@ public class HumanTUI implements Observer {
 	public HumanTUI (Board s) {
 		this.board = s;
 		board.addObserver(this);
+	}
+	
+	public String boardtoString(Board b){
+		int height = 0 ;
+		int row = 0;
+		int col = 0;
+		int layer = 0; 
 	}
 
 	public String toString() {

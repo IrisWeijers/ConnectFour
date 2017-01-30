@@ -3,6 +3,12 @@ package ConnectFour;
 import java.util.Observable;
 
 
+/**
+ * 
+ * @author Sam , Iris
+ *
+ */
+
 public class Board extends Observable {
 	public static int DIM = 4;
 	private  LocationState[][][] board;
@@ -11,9 +17,21 @@ public class Board extends Observable {
 	 * Creates an empty board.
 	 *  
 	 */
+	/*@
+	 invariant (\forall int i, j, k; 0 <= j & j < getDIM() & 0 <= i & i < getDIM() &
+	   0 <= k & k < getDIM(); getField(i, j, k) == Location.EMPTY || getField(i, j, k) == LocationState.YELLOW ||
+	   getField(i, j, k) == LocationState.RED);
+	 */
 	
+	/*@
+	  ensures (\forall int i, j, k; 0 <= j & j < getDIM() & 0 <= i & i < getDIM() &
+	   0 <= k & k < getDIM(); getField(i, j, k) == LocationState.EMPTY);
+	 */
 	///
 	//----- BOARD CONSTRUCTOR-----//
+	
+	
+	
 	public Board(){
 		
 		board = new LocationState[DIM][DIM][DIM];
@@ -379,10 +397,10 @@ public class Board extends Observable {
 			}
 
 		/**
-	     * Checks if the mark m has won. A mark wins if it controls at
+	     * Checks if the locationstate player has won. A  locationstate wins if it controls at
 	     * least one row, column or diagonal.
 	     *
-	     * @param m
+	     * @param player
 	     *            the mark of interest
 	     * @return true if the mark has won
 	     */

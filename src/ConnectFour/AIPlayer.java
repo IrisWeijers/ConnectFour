@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
+import ConnectFour.Strategy;
+import ConnectFour.LocationState;
+
 
 
 
@@ -13,43 +16,26 @@ import java.util.Random;
 * 
 */
 public class AIPlayer extends Player {
+	private Strategy strategy;
 
-	//iinstance variables
-	//the intial the number of moves taken by the AI Player
-	private int movesTaken = 0;
-  
+	public AIPlayer(LocationState locationstate, Strategy strategy) {
+		super(locationstate, strategy.getName() + "-" + locationstate);
+		this.strategy = strategy;
+	}
 	
+	@Override
+	public int[] determineMove() {
+		System.out.println(getName() + " is generating move...");
+		return strategy.generateMove(getLocationState());
+	}
 	
-	
-	
-	
-public AIPlayer(LocationState playerState) {
-		
-		super(playerState);
-
+	public Strategy getStrategy() {
+		return strategy;
 	}
 
-/**
- * Method that returns the computer players chosen column.
- */
-@Override
-public int getMove(Board board) {
-	System.out.print(board.toString() + "\n");
 
-	int chosenColumn = 0;
-
-	if (movesTaken == 0) {
-		
-		chosenColumn = tryTakeCentre(board);
-		return chosenColumn;
-	} 
-	else {
-
-		return bestMove(board);
-
-	}
 }
 
   
   
-}
+

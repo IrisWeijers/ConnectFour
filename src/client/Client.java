@@ -1,12 +1,17 @@
 package client;
 
-/////fffffff
+
 	import java.io.IOException;
 	import java.net.InetAddress;
 	import java.net.Socket;
 	import java.net.UnknownHostException;
+	import ConnectFour.AIPlayer;
+	import ConnectFour.HumanPlayer;
+	import ConnectFour.NaiveStrategy;
+	import ConnectFour.SmartStrategy;
+	
 
-import ConnectFour.Peer;
+
 
 	/**
 	 * Client class for a simple client-server application
@@ -14,6 +19,8 @@ import ConnectFour.Peer;
 	 * @version 2005.02.21
 	 */
 	public class Client {
+		
+		
 	    private static final String USAGE
 	        = "usage: java week7.cmdline.Client <name> <address> <port>";
 
