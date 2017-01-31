@@ -36,20 +36,25 @@ public class Board extends Observable {
 		
 		board = new LocationState[DIM][DIM][DIM];
 		reset();
-		
-		for (int i = 0; i < DIM; i++ ){
-			for (int j =0; j< DIM; j++) {
-				for (int k = 0 ; k < DIM; k++){
-					board[i][j][k]= LocationState.EMPTY;
-				}
-			}
-		}
 	}
+	
+	/**
+	 * Returns the dimensions of all boards.
+	 * @return the dimensions of the boards.
+	 */
 		
 	public int getDIM() {
 		return DIM;
 	}
-	
+	/**
+	 * Sets the Dimensions of all boards instances.
+	 * 
+	 * @param dimension 
+	 * the supposed new dimension of the boards.
+	 * 
+	 */
+	//@requires dimension > 0;
+	//@ensures (\forall Board b; b.getDIM() == dim);
 	public static void setDIM(int dim) {
 		DIM = dim;
 	}
@@ -58,12 +63,20 @@ public class Board extends Observable {
 	
 		/**
 		  * This method sets each space on the board to empty
-		  */
+		  * 
+		  * /**
+	 * Resets the board by setting all fields to an empty mark.
+	 */
+	/*@
+	  ensures (\forall int c, r, h; 0 <= c & c < getDIM() & 0 <= r & r < getDIM() &
+	   0 <= h & h < getDIM(); getField (c, r, h) == Mark.EMPTY);
+	 */
+		  
            public void reset(){
-			  for (int i = 0; i < DIM; i++) {
-					for (int j = 0; j < DIM; j++) {
+			  for (int j = 0; j < DIM; j++) {
+					for (int i = 0; i < DIM; i++) {
 						for(int k =0; k < DIM; k++) {
-							board[i][j][k] = LocationState.EMPTY;
+							board[j][i][k] = LocationState.EMPTY;
 						}
 					}
 			  }
@@ -71,29 +84,47 @@ public class Board extends Observable {
 				this.notifyObservers();
 
 			}
+           
+           /**
+       	 * Returns a deepCopy() of the current board state.
+       	 * @return copy of the current board state.
+       	 */
+       	//@ensures this.equals(deepCopy());
+       	//@pure
 		  
 	 public Board deepCopy() {
 				Board copy = new Board();
-				 for (int i = 0; i < DIM; i++){
-						for (int j = 0; j < DIM; j++){
+				 for (int j = 0; j < DIM; j++){
+						for (int i = 0; i < DIM; i++){
 							for(int k =0; k < DIM; k++) {
-							copy.board[i][j][k] = this.board[i][j][k];
+							copy.board[j][i][k] = this.board[j][i][k];
 						}
 					}
 				 }
 				return copy;
 		}
 	 
-	 public void setLocation(int i, int j, LocationState player) {
+	 /**
+		 * Sets a mark on the board by giving a column and a row as a parameter.
+		 * A gravity algorithm takes care of the height of the mark.
+		 * @param col column in which the mark is supposed to be put.
+		 * @param row row in which the mark is supposed to be put.
+		 * @param m mark that has to be set for the specified field.
+		 */
+		//@requires col >= 0 & col < getDIM();
+		//@requires row >= 0 & row < getDIM();
+		//@ensures (\exists int h; h >= 0 & h < getDIM(); getField(col, row, h) == m);
+	 
+	 public void setLocation(int j, int i, LocationState player) {
 			int k;
 			int tmp = 0;
 			for (k = 0; k < getDIM(); k++) {
-				if (getLocation(i, j, k) == LocationState.EMPTY) {
+				if (getLocation(j, i, k) == LocationState.EMPTY) {
 					tmp = k;
 					k = getDIM();
 				}
 			}
-			board[i][j][tmp] = player;
+			board[j][i][tmp] = player;
 			this.setChanged();
 			this.notifyObservers();
 		}
@@ -112,10 +143,10 @@ public class Board extends Observable {
 	     * @require location is in the board
 	     * @ensure getLocationState(location).equals(player);
 	     */
-	    public boolean setLocationState(int i, int j, int k, LocationState player) {
+	    public boolean setLocationState(int j, int i, int k, LocationState player) {
 	  	  
 	  	  if (i < DIM && j < DIM && k < DIM){
-	  			board[i][j][k] = player;
+	  			board[j][i][k] = player;
 	  			return true;
 	  		}
 	  		return false;
@@ -123,120 +154,142 @@ public class Board extends Observable {
 	    
 	    }
 	    
-	    public boolean isLocation(int i, int j, int k) {
+	    public boolean isLocation(int j, int i, int k) {
 			return i < DIM && i >= 0 && j < DIM && j >= 0 && k < DIM && k >= 0;
 		}
 	    
 	    
+	    
+		
 	    /**
-		 * This method gets the location player (i.e player chip colour) at a particular location
-		 *@param location 
-		 *@return Location player as LocationState
+		 * Returns the mark of a specified field.
+		 * @param col column in which the required field occurs.
+		 * @param row row in which the required field occurs.
+		 * @param height height on which the required field occurs.
+		 * @return mark of the specified field.
 		 */
-		
-		
-		public LocationState getLocation(int i, int j, int k) {
-			return board[i][j][k];
+		//@requires col >= 0 & col < getDIM();
+		//@requires row >= 0 & row < getDIM();
+		//@requires height >= 0 & height < getDIM();
+		//@pure
+		public LocationState getLocation(int j, int i, int k) {
+			return board[j][i][k];
 		}
 		
 		
 		
-		
-//		public void setLocation(Location player) {
-//			int x = player.getX();
-//			int y = player.getY();
-//			int z = player.getZ();
-//			LocationState one = player.getLocation();
-//			board[location.getX()][location.getY()][location.getZ()] = one;
-//		}
 		
 	
 
-		
 		/**
-		 * Checks for horizontal win
-		 * 
-		 * @param
-		 * @param
-		 * @return
-		 */	
+		 * Checks whether the given mark meets the win condition of having an entire row of marks.
+		 * @param m the mark for which the win condition should be checked
+		 * @return true if win condition is met, false if win condition is not met.
+		 */
+		/*@ensures \result == (\exists int c, h; c >= 0 & h >= 0 & c < getDIM() & h < getDIM();
+		  (\forall int r; r >= 0 & r < getDIM(); getField(c, r, h) == m));
+		@pure
+		 */
+	
+		
+		
 		public boolean checkHorizontal(LocationState player) {
-			
-			int stretch = 0;
+			boolean fullRow;
 			for (int i = 0; i < DIM; i++) {
-				for (int j = 0; j < DIM; j++) {
-					for (int k = 0; k < DIM; k++) {
-					if (board[i][j][k] == player) {
-						stretch = 1;
-						while (j < DIM && board[i][++j][k] == player) {
-							stretch++;
-							if (stretch == 4) {
-								return true ;
-							}
+				for (int k = 0; k < DIM; k++) {
+					fullRow = true;
+					for (int j = 0; j < DIM; j++) {
+						if (board[j][i][k] != player) {
+							fullRow = false;
 						}
-						
 					}
-				  }
+					if (fullRow) {
+						return true;
+
+					}
 				}
 			}
 			return false;
+
 		}
-			
 		
 		/**
-		 * Check for vertical win
-		 * 
-		 * @param
-		 * @param
-		 * @return
+		 * Checks whether the given mark meets the win condition of having an entire column of marks.
+		 * @param m the mark for which the win condition should be checked
+		 * @return true if win condition is met, false if win condition is not met.
+		 */
+		/*@ensures \result == (\exists int r, h; r >= 0 & h >= 0 & r < getDIM() & h < getDIM();
+		  (\forall int c; c >= 0 & c < getDIM(); getField(c, r, h) == m));
+		@pure
 		 */
 	  
 	 
-		  public boolean checkVertical(LocationState player ) {
 
-				int stretch = 0;
-				for (int i = 0; i < DIM; i++) {
-					for (int j = 0; j < DIM; j++){
-						for (int k = 0; k < DIM ; k++) {
-						if (board[i][j][k] == player) {
-							stretch=1;
-							while (i < DIM && board[++i][j][k] == player) {
-								stretch++;
-								if (stretch == 4) {
-									return true;
+				public boolean checkVertical(LocationState player) {
+					boolean fullCol;
+					for (int j = 0; j < DIM; j++) {
+						for (int k = 0; k < DIM; k++) {
+							fullCol = true;
+							for (int i = 0; i < DIM; i++) {
+								if (board[j][i][k] != player) {
+									fullCol = false;
 								}
 							}
+							if (fullCol) {
+								return true;
 
-						  }
-
-					   }
-					}
-				}
-				return false;
-				
-				
-	  }
-		  
-
-		  public boolean CheckLevel(LocationState player) {
-				boolean fullLevel;
-				for (int i = 0; i < DIM; i++) {
-					for (int j = 0; j < DIM; j++) {
-						fullLevel = true;
-						for (int k = 0; k < DIM; k++) {
-							if (board[i][j][k] != player) {
-								fullLevel = false;
 							}
 						}
-						if (fullLevel) {
-							return true;
+					}
+					return false;
+				}
+				
+				
+				
+				/**
+				 * Checks whether the given mark meets the win condition of having a stack of
+				 * marks matching the height of the board.
+				 * @param m the mark for which the win condition should be checked
+				 * @return true if win condition is met, false if win condition is not met.
+				 */
+				/*@ensures \result == (\exists int r, c; r >= 0 & c >= 0 & r < getDIM() & c < getDIM();
+				  (\forall int h; h >= 0 & h < getDIM(); getField(c, r, h) == m));
+				@pure
+				 */
+				
+				public boolean CheckLevel(LocationState player) {
+					boolean fullLevel;
+					for (int i = 0; i < DIM; i++) {
+						for (int j = 0; j < DIM; j++) {
+							fullLevel = true;
+							for (int k = 0; k < DIM; k++) {
+								if (board[j][i][k] != player) {
+									fullLevel = false;
+								}
+							}
+							if (fullLevel) {
+								return true;
 
+							}
 						}
 					}
+					return false;
 				}
-				return false;
-			}
 
+				/**
+				 * Checks whether the given mark meets the win condition of having a diagonal in the plains
+				 * of rows and columns.
+				 * @param m the mark for which the win condition should be checked
+				 * @return true if win condition is met, false if win condition is not met.
+				 */
+				/*@ensures \result == (\exists int h; h >= 0 & h < getDIM();
+				  (\forall int rc; rc >= 0 & rc < getDIM(); getField(rc, rc, h) == m) ||
+				  (\forall int rc; rc >= 0 & rc < getDIM(); getField(rc, rc - getDIM(), h) == m));
+				@pure
+				 */
+				
+				
+				
 		  
 		  public boolean hasRowColumn(LocationState player) {
 				boolean fullRowColumn;
@@ -264,6 +317,18 @@ public class Board extends Observable {
 				}
 				return false;
 			}
+		  
+		  /**
+			 * Checks whether the given mark meets the win condition of having a diagonal in the plains
+			 * of rows and height.
+			 * @param m the mark for which the win condition should be checked
+			 * @return true if win condition is met, false if win condition is not met.
+			 */
+			/*@ensures \result == (\exists int c; c >= 0 & c < getDIM();
+			  (\forall int rh; rh >= 0 & rh < getDIM(); getField(c, rh, rh) == m) ||
+			  (\forall int rh; rh >= 0 & rh < getDIM(); getField(c, rh - getDIM(), rh) == m));
+			@pure
+			 */
 		  
 		  public boolean hasRowLevel(LocationState player) {
 				boolean fullRowLevel;
@@ -293,6 +358,19 @@ public class Board extends Observable {
 			}
 		  
 		  
+			/**
+			 * Checks whether the given mark meets the win condition of having a diagonal in the plains
+			 * of columns and height.
+			 * @param m the mark for which the win condition should be checked
+			 * @return true if win condition is met, false if win condition is not met.
+			 */
+			/*@ensures \result == (\exists int r; r >= 0 & r < getDIM();
+			  (\forall int ch; ch >= 0 & ch < getDIM(); getField(ch, r, ch) == m) ||
+			  (\forall int ch; ch >= 0 & ch < getDIM(); getField(ch - getDIM(), r, ch) == m));
+			@pure
+			 */
+		  
+		  
 		  public boolean hasColumnLevel(LocationState player) {
 				boolean fullColumnLevel;
 				for (int j = 0; j < DIM; j++) {
@@ -320,6 +398,20 @@ public class Board extends Observable {
 				return false;
 			}
 		  
+		  /**
+			 * Checks whether the given mark meets the win condition of having a 3 dimensional
+			 * diagonal of equal length of the boards dimensions.
+			 * @param m the mark for which the win condition should be checked
+			 * @return true if win condition is met, false if win condition is not met.
+			 */
+			/*
+			@ensures \result == (\forall int i; i >= 0 & i < getDIM(); getField(i, i, i) == m) ||
+			(\forall int i; i >= 0 & i < getDIM(); getField(i - getDIM(), i, i) == m) ||
+			(\forall int i; i >= 0 & i < getDIM(); getField(i, i - getDIM(), i) == m) ||
+			(\forall int i; i >= 0 & i < getDIM(); getField(i - getDIM(), i - getDIM(), i) == m);
+			@pure
+			 */
+		  
 		  public boolean hasRowColumnLevel(LocationState player) {
 				// booleans indicate start of diagonal in bottom level
 				boolean diagTopLeft = true;
@@ -344,6 +436,19 @@ public class Board extends Observable {
 				return diagTopLeft || diagTopRight || diagBottomLeft || diagBottomRight;
 			}
 		  
+		  
+		  
+		  
+		  /**
+			 * Checks whether the board is full. In other words if there are still empty marks in the board.
+			 * @return true if board is full, false if there are still empty marks left.
+			 */
+			/*@
+			  ensures \result == (\forall int c, r, h; 0 <= c & c < getDIM() & 0 <= r & r < getDIM() &
+			   0 <= h & h < getDIM(); getField(c, r, h) != Mark.EMPTY);
+			 */
+			//@pure
+		  
 		  public boolean isFull() {
 				boolean full = true;
 				for (int i = 0; i < DIM; i++) {
@@ -357,14 +462,45 @@ public class Board extends Observable {
 				}
 				return full;
 			}
+		  
+		  /**
+			 * Checks whether the game is over. The game is over when board is either full, or
+			 * there one of the marks meets a win condition.
+			 * @return true if the game is over, false is the game is not yet over.
+			 */
+			//@ensures \result == isFull() || hasWinner();
+			//@pure
 
 			public boolean gameOver() {
 				return isFull() || hasWinner();
 			}
+			
+			/**
+			 * Indicates if one of the marks (not the empty mark) meets a win condition.
+			 * @return true if one of the marks meets a win condition, false if none of 
+			 * the marks meets a win condition.
+			 */
+			//@ensures \result == isWinner(Mark.O) || isWinner(Mark.X);
+			//@pure
 
 			public boolean hasWinner() {
 				return isWinner(LocationState.RED) || isWinner(LocationState.YELLOW);
 			}
+			
+			/**
+			 * Checks whether the given mark meets any of the win conditions.
+			 * @param m mark for which needs to be checked whether one of the win conditions
+			 * has been met.
+			 * @return true if mark meets a win condition, false if mark doesn't meet any
+			 * win condition.
+			 */
+			/*
+			@requires m != Mark.EMPTY;
+			@ensures \result == hasRow(m) || hasColumn(m) || hasHeight(m) 
+			|| hasRowHeight(m) || hasRowColumn(m) || hasColumnHeight(m) 
+			|| hasRowColumnHeight(m);
+			*/
+			//@pure
 
 			public boolean isWinner(LocationState player) {
 				return checkHorizontal(player) || checkVertical(player) || CheckLevel(player) 

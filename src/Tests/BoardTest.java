@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import ConnectFour.Board;
 import ConnectFour.LocationState;
+import ConnectFour.HumanTUI;
 
 public class BoardTest {
 	
@@ -18,39 +19,18 @@ public class BoardTest {
 	}
 
 		
-//	@Test
-//	public void testSetLocationState(){
-//		Board board = new Board(4,4,4);
-//		for (int x = 0;x < 4; x++){
-//			for (int y = 0;y < 4; y++){
-//				for (int z = 0;z < 4; z++){
-//					board.setLocationState(new Location(x,y,z), LocationState.RED);
-//					assertEquals(LocationState.RED, board.getLocationState(new Location(x,y,z)));
-//					
-//					board.setLocationState(new Location(x,y,z), LocationState.YELLOW);
-//					assertEquals(LocationState.YELLOW, board.getLocationState(new Location(x,y,z)));
-//				}
-//			}
-//		}
-//	}
-////	
-//	@Test
-//	public void testReset(){
-//	Board board = new Board (4,4,4);
-//	for (int x = 0;x < 4; x++){
-//		for (int y = 0;y < 4; y++){
-//			for (int z = 0;z < 4; z++){
-//				board.setLocationState(new Location(x,y,z), LocationState.RED);
-//			}
-//		}
-//	}
-//	System.out.println("pre-reset\n" + board);
-//	board.reset();
-//	System.out.println("reset\n" + board);
-//	assertTrue(board.isEmpty());
+	@Test
+	public void testDeepCopy() {
+		Board dc = new Board();
+		board.setLocation(1, 0, LocationState.YELLOW);
+		assertNotEquals(board.getLocation(1, 0, 0), dc.getLocation(1, 0, 0));
+		dc = board.deepCopy();
+		assertEquals(board.getLocation(1, 0, 0), dc.getLocation(1, 0, 0));
+	}
 	
-	//}
+
 	
+
 	@Test
 	public void testCheckHorizontal() {
 		Board board = new Board();
@@ -58,11 +38,15 @@ public class BoardTest {
 		board.setLocation(2,0, LocationState.YELLOW);
 		board.setLocation(3,0, LocationState.YELLOW);
 		assertFalse(board.checkHorizontal(LocationState.YELLOW));
+		assertFalse(board.hasWinner());
+		assertFalse(board.isWinner(LocationState.YELLOW));
 		
 		board.setLocation(0,0, LocationState.YELLOW);
-		System.out.println("Horizontal\n" );
+		
 		assertTrue(board.checkHorizontal(LocationState.YELLOW));
-		assertFalse(board.checkHorizontal(LocationState.RED));
+		assertTrue(board.hasWinner());
+		assertTrue(board.isWinner(LocationState.YELLOW));
+		
 	}
 	
 	@Test
@@ -74,7 +58,6 @@ public class BoardTest {
 		assertFalse(board.checkVertical(LocationState.YELLOW));
 		
 		board.setLocation(0,0, LocationState.YELLOW);
-		System.out.println("Vertical\n" );
 		assertTrue(board.checkVertical(LocationState.YELLOW));
 		assertFalse(board.checkVertical(LocationState.RED));
 	}
@@ -88,7 +71,6 @@ public class BoardTest {
 		assertFalse(board.CheckLevel(LocationState.YELLOW));
 		
 		board.setLocation(0,0, LocationState.YELLOW);
-		System.out.println("Vertical\n");
 		assertTrue(board.CheckLevel(LocationState.YELLOW));
 		assertFalse(board.CheckLevel(LocationState.RED));
 	}
@@ -243,16 +225,9 @@ public class BoardTest {
 		board.setLocation(2,1, LocationState.YELLOW);
 		board.setLocation(3,0, LocationState.YELLOW);
 		assertFalse(board.isFull());
-		
-		for (int x = 0;x < 4; x++){
-			for (int y = 0;y < 4; y++){
-				for (int z = 0;z < 4; z++){
-					board.setLocation(x,y, LocationState.RED);
-				}
-			}
-		}
-		System.out.println("full\n" + board);
 		assertTrue(board.isFull());
+		assertTrue(board.hasWinner());
+		assertTrue(board.gameOver());
 	}
 
 }
