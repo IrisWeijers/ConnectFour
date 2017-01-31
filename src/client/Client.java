@@ -1,14 +1,22 @@
 package client;
 
 
-	import java.io.IOException;
-	import java.net.InetAddress;
-	import java.net.Socket;
-	import java.net.UnknownHostException;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.net.InetAddress;
+import java.net.Socket;
+
 	import ConnectFour.AIPlayer;
 	import ConnectFour.HumanPlayer;
 	import ConnectFour.NaiveStrategy;
 	import ConnectFour.SmartStrategy;
+	import exceptions.InvalidInputException;
+	import exceptions.UserAlreadyConnectedException;
+	import ConnectFour.Protocol;
+	import ConnectFour.LocationState;
 	
 
 
@@ -18,62 +26,170 @@ package client;
 	 * @author  Theo Ruys
 	 * @version 2005.02.21
 	 */
-	public class Client {
+
 		
 		
-	    private static final String USAGE
-	        = "usage: java week7.cmdline.Client <name> <address> <port>";
+		public class Client {
 
-	    /** Starts a Client application. */
-	    public static void main(String[] args) {
-	        if (args.length != 3) {
-	            System.out.println(USAGE);
-	            System.exit(0);
-	        }
+			public static final String HELP = "HELP";
+			public static final String GIVEHELP = 
+					"List of commands:\n" + "DISCONNECT: disconnect from server and exit\n"
+					+ "PLAYERS ALL: get list of players that are connected to server\n"
+					+ "GAME READY: notify server you are ready to play a game\n"
+					+ "GAME UNREADY: notify server that you are not ready anymore to play a game\n";
 
-	        String name = args[0];
-	        InetAddress addr = null;
-	        int port = 0;
-	        Socket sock = null;
+			private String name;
+			private int port;
+			private InetAddress ipAddress;
+			private Socket sock;
+			private BufferedReader reader;
+			private PrintWriter writer;
+			private BufferedReader terminalReader;
+			private ServerInputHandler serverInputHandler;
+			private Player player;
+			private boolean hasTurn;
+			private boolean running;
 
-	        // check args[1] - the IP-adress
-	        try {
-	            addr = InetAddress.getByName(args[1]);
-	        } catch (UnknownHostException e) {
-	            System.out.println(USAGE);
-	            System.out.println("ERROR: host " + args[1] + " unknown");
-	            System.exit(0);
-	        }
+			public Client() {
+				terminalReader = new BufferedReader(new InputStreamReader(System.in));
+				hasTurn = false;
+			}
 
-	        // parse args[2] - the port
-	        try {
-	            port = Integer.parseInt(args[2]);
-	        } catch (NumberFormatException e) {
-	            System.out.println(USAGE);
-	            System.out.println("ERROR: port " + args[2]
-	            		           + " is not an integer");
-	            System.exit(0);
-	        }
+			public static void main(String[] args) {
+				Client client = new Client();
+				client.reader = null;
+				client.writer = null;
+				boolean infoReady = false;
+				while (!infoReady) {
+					try {
+						client.getConnectionInfo();
+						client.getPlayerInfo();
+						client.sock = new Socket(client.ipAddress, client.port);
+						client.reader = 
+								new BufferedReader(new InputStreamReader(client.sock.getInputStream()));
+						client.writer = 
+								new PrintWriter(new OutputStreamWriter(client.sock.getOutputStream()));
+						client.connect();
+						if (!client.reader.readLine().startsWith(Protocol.CONFIRM)) {
+							throw new UserAlreadyConnectedException();
+						} else {
+							System.out.println("For help, type " + HELP);
+							infoReady = true;
+						}
 
-	        // try to open a Socket to the server
-	        try {
-	            sock = new Socket(addr, port);
-	        } catch (IOException e) {
-	            System.out.println("ERROR: could not create a socket on " + addr
-	                    + " and port " + port);
-	        }
+					} catch (IOException | NumberFormatException e) {
+						System.out.println("An IO-Exception/NumberFormatException Occured, "
+								+ "please enter information again. " 
+								+ "Possible causes:\n"
+								+ "- incorrect ip address\n" + "- incorrect port number\n");
+					} catch (UserAlreadyConnectedException e) {
+						System.out.println(e.getMessage() + ". Please choose a different username");
+					} catch (InvalidInputException e) {
+						System.out.println(e.getMessage());
+					}
+				}
+				try {
+					client.serverInputHandler = new ServerInputHandler(client.reader, client);
+					client.serverInputHandler.start();
+					client.handleTerminalInput();
+					client.disconnect();
+				} catch (IOException e) {
+					System.out.println("IO exception in main client");
+				}
 
-	        // create Peer object and start the two-way communication
-	        try {
-	            Peer client = new Peer(name, sock);
-	            Thread streamInputHandler = new Thread(client);
-	            streamInputHandler.start();
-	            client.handleTerminalInput();
-	            client.shutDown();
-	        } catch (IOException e) {
-	            e.printStackTrace();
-	        }
-	    }
+			}
 
-	} // end of class Client
+			public void getConnectionInfo() throws IOException, NumberFormatException {
+				System.out.println("What is your name?");
+				String[] nameparts = terminalReader.readLine().split(" ");
+				name = "";
+				for (int i = 0; i < nameparts.length; i++) {
+					name = name + nameparts[i];
+				}
+				System.out.println("To what ip address do you wish to connect?");
+				ipAddress = InetAddress.getByName(terminalReader.readLine());
+				System.out.println("To what port do you wish to connect?");
+				port = Integer.parseInt(terminalReader.readLine());
+			}
+
+			public void getPlayerInfo() throws IOException, InvalidInputException {
+				System.out.println("Do you wish to play with an AI (1) or by yourself (2)?");
+				String playChoice = terminalReader.readLine();
+				if (playChoice.equals("2")) {
+					player = new HumanNetworkPlayer(Mark.O, name, terminalReader);
+				} else if (playChoice.equals("1")) {
+					System.out.println(
+							"Do you wish to play with a fast naive AI (1) or slow smart AI (2)?");
+					playChoice = terminalReader.readLine();
+					if (playChoice.equals("1")) {
+						player = new ComputerPlayer(Mark.O, new NaiveStrategy());
+					} else if (playChoice.equals("2")) {
+						player = new ComputerPlayer(Mark.O, new SmartStrategy());
+					} else {
+						throw new InvalidInputException(
+								"Invalid input, please provide a 1 or a 2 as answer");
+					}
+				} else {
+					throw new InvalidInputException("Invalid input, please provide a 1 or a 2 as answer");
+				}
+			}
+
+			public void handleTerminalInput() throws IOException {
+				running = true;
+				while (running) {
+					while (!hasTurn) {
+						if (terminalReader.ready()) {
+							String input = terminalReader.readLine();
+							String[] parsedInput = input.split(" ");
+							if (parsedInput.length >= 1 && parsedInput[0].equals(Protocol.DISCONNECT)) {
+								writeToServer(input);
+								running = false;
+								disconnect();
+							} else if (parsedInput.length >= 1 && parsedInput[0].equals(HELP)) {
+								System.out.println(GIVEHELP);
+							} else {
+								writeToServer(input);
+							}
+						}
+					}
+				}
+			}
+
+			public void disconnect() throws IOException {
+				serverInputHandler.stopRunning();
+				writer.close();
+				terminalReader.close();
+				reader.close();
+			}
+
+			public void connect() {
+				writeToServer(Protocol.CONNECT + " " + name);
+			}
+
+			public void writeToServer(String msg) {
+				writer.println(msg);
+				writer.flush();
+			}
+
+			public Player getPlayer() {
+				return player;
+			}
+
+			public String getName() {
+				return name;
+			}
+
+			public boolean isHasTurn() {
+				return hasTurn;
+			}
+
+			public void setHasTurn(boolean hasTurn) {
+				this.hasTurn = hasTurn;
+			}
+
+			public void setRunning(boolean running) {
+				this.running = running;
+			}
+		}
+	}
 

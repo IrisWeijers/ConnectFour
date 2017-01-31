@@ -12,8 +12,14 @@ import ConnectFour.Player;
 import ConnectFour.SmartStrategy;
 import ConnectFour.Board;
 import ConnectFour.LocationState;
+import client.Client;
+import ConnectFour.Protocol;
+import exceptions.NoWinnerException;
+import ConnectFour.HumanTUI;
 
-public class Connect4 {
+
+
+public class ConnectFour {
 	public static final String USAGE = 
 			"Usage: <Dimensions> <humanplayer/computerplayer> <humanplayer/computerplayer";
 	public static void main(String[] args) {
@@ -29,17 +35,17 @@ public class Connect4 {
 			exit();
 		}
 		if (args[1].equals("humanplayer")) {
-			player1 = new HumanPlayer(Mark.O, "player1");
-		} else if (args[1].equals("computerplayer")) {
-			player1 = new ComputerPlayer(Mark.O, new SmartStrategy());
+			player1 = new HumanPlayer(LocationState.YELLOW, "player1");
+		} else if (args[1].equals("AIplayer")) {
+			player1 = new AIPlayer(LocationState.YELLOW, new SmartStrategy());
 		} else {
 			exit();
 		}
 		
 		if (args[2].equals("humanplayer")) {
-			player2 = new HumanPlayer(Mark.X, "player1");
-		} else if (args[2].equals("computerplayer")) {
-			player2 = new ComputerPlayer(Mark.X, new SmartStrategy());
+			player2 = new HumanPlayer(LocationState.YELLOW, "player1");
+		} else if (args[2].equals("AIplayer")) {
+			player2 = new AIPlayer(LocationState.YELLOW, new SmartStrategy());
 		} else {
 			exit();
 		}
