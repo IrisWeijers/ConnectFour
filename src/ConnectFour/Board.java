@@ -306,7 +306,7 @@ public class Board extends Observable {
 				}
 				for (int k = 0; k < DIM; k++) {
 					fullRowColumn = true;
-					for (int ij = 0; ij < DIM; k++) {
+					for (int ij = 0; ij < DIM; ij++) {
 						if (board[ij][DIM - ij - 1][k] != player) {
 							fullRowColumn = false;
 						}
@@ -377,7 +377,7 @@ public class Board extends Observable {
 					fullColumnLevel = true;
 					for (int jk = 0; jk < DIM; jk++) {
 						if (board[j][jk][jk] != player) {
-							fullColumnLevel = true;
+							fullColumnLevel = false;
 						}
 					}
 					if (fullColumnLevel) {
@@ -388,7 +388,7 @@ public class Board extends Observable {
 					fullColumnLevel = true;
 					for (int jk = 0; jk < DIM; jk++) {
 						if (board[j][jk][DIM - jk - 1] != player) {
-							fullColumnLevel = true;
+							fullColumnLevel = false;
 						}
 					}
 					if (fullColumnLevel) {
