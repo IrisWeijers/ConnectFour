@@ -62,7 +62,7 @@ Creates a new Player object
    *            the current game board
    * @return the player's choice
    */
-	public abstract int determineMove(Board board);
+	public abstract int[] determineMove(Board board);
 
 	/**
 	 * This method should return the next move for a Connect 4 game. Assume

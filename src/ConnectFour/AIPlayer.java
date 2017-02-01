@@ -1,9 +1,6 @@
 package ConnectFour;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Random;
+
 
 import ConnectFour.Strategy;
 import ConnectFour.LocationState;
@@ -33,8 +30,13 @@ public class AIPlayer extends Player {
 		return strategy;
 	}
 
+	@Override
+	public int getMove(Board board) {
+		return 0;
+	}
 
-}
+
+ }
 
   
   
