@@ -2,8 +2,6 @@ package ConnectFour;
 
 import java.util.Scanner;
 
-import ConnectFour.AIPlayer;
-import ConnectFour.HumanPlayer;
 import ConnectFour.Board;
 
 public class Game {
@@ -24,9 +22,6 @@ public class Game {
   the board
   */
 	private Board board;
-
-  //The initial number of turns
-	private int numTurns = 0;
   
  /**
  creates a new game object with players
@@ -137,63 +132,5 @@ public class Game {
             System.out.println("Draw. There is no winner!");
         }
     }
-  
-
-    
-	  
-
-//	  
-//			/**
-//			 * Checks if the top row of a selected column is full. If column full return
-//			 * false for invalid move and player must choose another column.
-//			 * 
-//			 * @param column
-//			 *            - The column as selected by the player
-//			 * @return - If column is full or not
-//			 */
-//			public boolean checkColumnFull(int column) {
-//
-//				if (board.getLocationState(new Location(column, 0)) != LocationState.EMPTY) {
-//					return true;
-//				} else {
-//					return false;
-//				}
-//
-//			}
-//			
-//			
-//			
-//			/**
-//			 * Method used by graphical user interface in order to avoid
-//			 * the loop situation within the taketurn() and playGame() methods
-//			 * @param column
-//			 * @return
-//			 */
-//			public int makeMove (int column){
-//				
-//				
-//				int row = -1; ;
-//				for (int i = board.getNoRows() - 1; i >= 0; i--) {
-//					Location chosenLocation = new Location(column, i);
-//
-//					if (board.getLocationState(chosenLocation) == LocationState.EMPTY) {
-//						board.setLocationState(chosenLocation,
-//								currentPlayer.getPlayerState());
-//						numTurns++ ;
-//						
-//						row = i ;
-//						break;
-//					}
-//				}
-//				return row;
-//				
-//			}
-//			
-//			
-//
-//
-//		}
-			
-
  
 }
