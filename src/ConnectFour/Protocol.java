@@ -1,6 +1,6 @@
 package ConnectFour;
 
-/**
+/** 
  * Interface with constants as defined for group 4.
  */
 public interface Protocol {
@@ -9,8 +9,8 @@ public interface Protocol {
 
     /**
      * Connect this client.
-     * Example: <code>CONNECT stevejobs 01</code>
-     * Or: <code>CONNECT hans</code>
+     * Example: <code>CONNECT samuel 01</code>
+     * Or: <code>CONNECT Iris </code>
      */
     public static final String CONNECT = "CONNECT";
 
@@ -114,3 +114,4 @@ public interface Protocol {
         }
     }
 }
+
