@@ -6,6 +6,9 @@ import java.io.IOException;
 import ConnectFour.Game;
 import ConnectFour.Protocol;
 import ConnectFour.LocationState;
+import ConnectFour.OnlinePlayer;
+import ConnectFour.HumanNetworkPlayer;
+
 
 public class ServerInputHandler extends Thread {
 	private BufferedReader input;
@@ -31,13 +34,13 @@ public class ServerInputHandler extends Thread {
 				String[] parsedText = rawText.split(" ");
 				if (parsedText.length >= 4 && rawText.startsWith(Protocol.START)) {
 					if (parsedText[2].equals(client.getName())) {
-						opponent = new OnlinePlayer(Mark.X, parsedText[3]);
+						opponent = new OnlinePlayer(LocationState.RED, parsedText[3]);
 						gameThread = new Game(client.getPlayer(), opponent, false);
 						gameThread.setClient(client);
 						client.setHasTurn(true);
 						gameThread.start();
 					} else {
-						opponent = new OnlinePlayer(Mark.X, parsedText[2]);
+						opponent = new OnlinePlayer(LocationState.RED, parsedText[2]);
 						gameThread = new Game(opponent, client.getPlayer(), false);
 						gameThread.setClient(client);
 						gameThread.start();
