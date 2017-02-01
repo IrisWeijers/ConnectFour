@@ -133,7 +133,7 @@ public class Game extends Thread {
 			reset[0] = -1;
 			OnlinePlayer onlinePlayer = (OnlinePlayer) player;
 			onlinePlayer.setMoveBuffer(reset);
-		} else if (!local) {
+		} else if (!Local) {
 			client.writeToServer(Protocol.CLIENT_MOVE + " " + coords[0] + " " + coords[1]);
 		}
 	}

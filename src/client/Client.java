@@ -12,11 +12,14 @@ import java.net.Socket;
 	import ConnectFour.AIPlayer;
 	import ConnectFour.HumanPlayer;
 	import ConnectFour.NaiveStrategy;
-	import ConnectFour.SmartStrategy;
+import ConnectFour.Player;
+import ConnectFour.SmartStrategy;
 	import exceptions.InvalidInputException;
 	import exceptions.UserAlreadyConnectedException;
 	import ConnectFour.Protocol;
 	import ConnectFour.LocationState;
+	import ConnectFour.OnlinePlayer;
+	import ConnectFour.HumanNetworkPlayer;
 	
 
 
@@ -116,15 +119,15 @@ import java.net.Socket;
 				System.out.println("Do you wish to play with an AI (1) or by yourself (2)?");
 				String playChoice = terminalReader.readLine();
 				if (playChoice.equals("2")) {
-					player = new HumanNetworkPlayer(Mark.O, name, terminalReader);
+					player = new HumanNetworkPlayer(LocationState.YELLOW, name, terminalReader);
 				} else if (playChoice.equals("1")) {
 					System.out.println(
 							"Do you wish to play with a fast naive AI (1) or slow smart AI (2)?");
 					playChoice = terminalReader.readLine();
 					if (playChoice.equals("1")) {
-						player = new ComputerPlayer(Mark.O, new NaiveStrategy());
+						player = new AIPlayer(LocationState.YELLOW, new NaiveStrategy());
 					} else if (playChoice.equals("2")) {
-						player = new ComputerPlayer(Mark.O, new SmartStrategy());
+						player = new AIPlayer(LocationState.YELLOW, new SmartStrategy());
 					} else {
 						throw new InvalidInputException(
 								"Invalid input, please provide a 1 or a 2 as answer");
@@ -191,5 +194,5 @@ import java.net.Socket;
 				this.running = running;
 			}
 		}
-	}
+	
 
