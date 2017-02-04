@@ -1,7 +1,7 @@
 package ConnectFour;
 
 /** 
- * Interface with constants.
+ * Interface with constants as defined for group 4.
  */
 public interface Protocol {
 

@@ -7,7 +7,7 @@ import ConnectFour.Game;
 import ConnectFour.Protocol;
 import ConnectFour.LocationState;
 import ConnectFour.OnlinePlayer;
-
+import ConnectFour.HumanNetworkPlayer;
 
 
 public class ServerInputHandler extends Thread {

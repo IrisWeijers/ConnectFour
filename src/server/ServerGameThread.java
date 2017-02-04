@@ -2,15 +2,17 @@ package server;
 
 
 import exceptions.InternalErrorException;
+import exceptions.IlegalMethodException;
 import exceptions.IllegalMoveException;
 import exceptions.PlayerDisconnectException;
 import ConnectFour.Protocol;
 import ConnectFour.Board;
 import ConnectFour.LocationState;
 
-
+import ConnectFour.Protocol;
 import client.ClientThread;
-
+import client.Client;
+import server.Server;
 /**
  * 
  * Class for checking moves sent by clients and making those moves on
