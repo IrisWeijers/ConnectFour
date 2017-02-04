@@ -3,7 +3,7 @@ package ConnectFour;
 import java.util.Scanner;
 
 import ConnectFour.AIPlayer;
-import ConnectFour.HumanPlayer;
+
 import ConnectFour.Board;
 import ConnectFour.Protocol;
 import client.Client;

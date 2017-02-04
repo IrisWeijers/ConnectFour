@@ -19,7 +19,7 @@ public class Board extends Observable {
 	 */
 	/*@
 	 invariant (\forall int i, j, k; 0 <= j & j < getDIM() & 0 <= i & i < getDIM() &
-	   0 <= k & k < getDIM(); getField(i, j, k) == Location.EMPTY || getField(i, j, k) == LocationState.YELLOW ||
+	    0 <= k & k < getDIM(); getField(i, j, k) == Location.EMPTY || getField(i, j, k) == LocationState.YELLOW ||
 	   getField(i, j, k) == LocationState.RED);
 	 */
 

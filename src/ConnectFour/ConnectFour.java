@@ -12,10 +12,6 @@ import ConnectFour.Player;
 import ConnectFour.SmartStrategy;
 import ConnectFour.Board;
 import ConnectFour.LocationState;
-import client.Client;
-import ConnectFour.Protocol;
-import exceptions.NoWinnerException;
-import ConnectFour.HumanTUI;
 
 
 

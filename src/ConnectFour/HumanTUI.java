@@ -2,7 +2,7 @@ package ConnectFour;
 
 import java.util.Observable;
 import java.util.Observer;
-import java.util.Scanner;
+
 import ConnectFour.Board;
 
 
