@@ -225,7 +225,6 @@ public class BoardTest {
 		board.setLocation(2,1, LocationState.YELLOW);
 		board.setLocation(3,0, LocationState.YELLOW);
 		assertFalse(board.isFull());
-		assertTrue(board.isFull());
 		assertTrue(board.hasWinner());
 		assertTrue(board.gameOver());
 	}

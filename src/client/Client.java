@@ -166,7 +166,7 @@ import ConnectFour.SmartStrategy;
 			}
 
 			public void connect() {
-				writeToServer(Protocol.CONNECT + " " + name);
+				writeToServer(Protocol.CONNECT + "CONNECT " + name);
 			}
 
 			public void writeToServer(String msg) {

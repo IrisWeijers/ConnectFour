@@ -144,8 +144,13 @@ public class ClientThread extends Thread {
 	*/
 	public void connect(String[] text) throws UserAlreadyConnectedException {
 		boolean exists = false;
+		String namegiven = text[1];
+		String nameofclient = null;
+		String client = null;
 		for (ClientThread clientThread : server.getConnectedClients()) {
 			if (clientThread.getClientName().equals(text[1])) {
+				nameofclient = clientThread.getClientName();
+				client = clientThread.toString();
 				exists = true;
 			}
 		}
@@ -155,7 +160,7 @@ public class ClientThread extends Thread {
 			name = text[1];
 			server.getConnectedClients().add(this);
 		} else {
-			throw new UserAlreadyConnectedException();
+			throw new UserAlreadyConnectedException(new String[]{nameofclient, namegiven, client});
 		}
 	}
 	/**
