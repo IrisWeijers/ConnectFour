@@ -55,8 +55,14 @@ Creates a new Player object
   }
 
 
-
-	public abstract int[] determineMove();
+  /**
+   * Determines the field for the next move.
+   * 
+   * @param board
+   *            the current game board
+   * @return the player's choice
+   */
+	public abstract int[] determineMove(Board board);
 
 	/**
 	 * This method should return the next move for a Connect 4 game. Assume
@@ -68,10 +74,23 @@ Creates a new Player object
 	 * @return column number for next turn as integer.
 	 */
 	public abstract int getMove(Board board);
-
-
 	
+
+	/*@
+    requires board != null & !board.isFull();
+  */
+ /**
+  * Makes a move on the board. <br>
+  * 
+  * @param board
+  *            the current board
+  */
+	public void makeMove(Board board){
+		int choise = determineMove(board);
+	    board.setLocation( getLocationState());	
+	}
 	
+
 	/**
 	 * This method returns the location state (i.e. colour) associated with the
 	 * player.

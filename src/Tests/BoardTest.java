@@ -33,7 +33,6 @@ public class BoardTest {
 
 	@Test
 	public void testCheckHorizontal() {
-		Board board = new Board();
 		board.setLocation(1,0, LocationState.YELLOW);
 		board.setLocation(2,0, LocationState.YELLOW);
 		board.setLocation(3,0, LocationState.YELLOW);
@@ -51,7 +50,6 @@ public class BoardTest {
 	
 	@Test
 	public void testCheckVertical() {
-		Board board = new Board();
 		board.setLocation(0,1, LocationState.YELLOW);
 		board.setLocation(0,2, LocationState.YELLOW);
 		board.setLocation(0,3, LocationState.YELLOW);
@@ -60,11 +58,12 @@ public class BoardTest {
 		board.setLocation(0,0, LocationState.YELLOW);
 		assertTrue(board.checkVertical(LocationState.YELLOW));
 		assertFalse(board.checkVertical(LocationState.RED));
+		assertTrue(board.hasWinner());
+		assertTrue(board.isWinner(LocationState.YELLOW));
 	}
 	
 	@Test
 	public void testCheckLevel() {
-		Board board = new Board();
 		board.setLocation(0,0, LocationState.YELLOW);
 		board.setLocation(0,0, LocationState.YELLOW);
 		board.setLocation(0,0, LocationState.YELLOW);
@@ -73,27 +72,33 @@ public class BoardTest {
 		board.setLocation(0,0, LocationState.YELLOW);
 		assertTrue(board.CheckLevel(LocationState.YELLOW));
 		assertFalse(board.CheckLevel(LocationState.RED));
+		assertTrue(board.hasWinner());
+		assertTrue(board.isWinner(LocationState.YELLOW));
 	}
 	@Test
 	public void testHasRowColumn() {
-		Board board = new Board();
 		board.setLocation(1, 1, LocationState.YELLOW);
 		board.setLocation(2, 2, LocationState.YELLOW);
 		board.setLocation(3, 3, LocationState.YELLOW);
 		assertFalse(board.hasRowColumn(LocationState.YELLOW));
 		board.setLocation(0, 0, LocationState.YELLOW);
 		assertTrue(board.hasRowColumn(LocationState.YELLOW));
+		assertTrue(board.hasWinner());
+		assertTrue(board.isWinner(LocationState.YELLOW));
 		board.reset();
+		
+		
 		board.setLocation(0, 3, LocationState.YELLOW);
 		board.setLocation(1, 2, LocationState.YELLOW);
 		board.setLocation(2, 1, LocationState.YELLOW);
 		assertFalse(board.hasRowColumn(LocationState.YELLOW));
 		board.setLocation(3, 0, LocationState.YELLOW);
 		assertTrue(board.hasRowColumn(LocationState.YELLOW));
+		assertTrue(board.hasWinner());
+		assertTrue(board.isWinner(LocationState.YELLOW));
 	}
 	@Test
 	public void testhasRowLevel() {
-		Board board = new Board();
 		board.setLocation(1, 2, LocationState.YELLOW);
 		board.setLocation(2, 2, LocationState.YELLOW);
 		board.setLocation(3, 2, LocationState.YELLOW);
@@ -106,7 +111,10 @@ public class BoardTest {
 		board.setLocation(3, 2, LocationState.YELLOW);
 		board.setLocation(3, 2, LocationState.YELLOW);
 		assertTrue(board.hasRowLevel(LocationState.YELLOW));
+		assertTrue(board.hasWinner());
+		assertTrue(board.isWinner(LocationState.YELLOW));
 		board.reset();
+		
 		board.setLocation(0, 3, LocationState.YELLOW);
 		board.setLocation(1, 3, LocationState.YELLOW);
 		board.setLocation(2, 3, LocationState.YELLOW);
@@ -119,12 +127,13 @@ public class BoardTest {
 		board.setLocation(3, 3, LocationState.YELLOW);
 		board.setLocation(3, 3, LocationState.YELLOW);
 		assertTrue(board.hasRowLevel(LocationState.YELLOW));
+		assertTrue(board.hasWinner());
+		assertTrue(board.isWinner(LocationState.YELLOW));
 	}
 	
 	
 	@Test
 	public void testHasColumnLevel() {
-		Board Board = new Board();
 		board.setLocation(3, 1, LocationState.YELLOW);
 		board.setLocation(3, 2, LocationState.YELLOW);
 		board.setLocation(3, 3, LocationState.YELLOW);
@@ -137,7 +146,10 @@ public class BoardTest {
 		board.setLocation(3, 3, LocationState.YELLOW);
 		board.setLocation(3, 3, LocationState.YELLOW);
 		assertTrue(board.hasColumnLevel(LocationState.YELLOW));
+		assertTrue(board.hasWinner());
+		assertTrue(board.isWinner(LocationState.YELLOW));
 		board.reset();
+		
 		board.setLocation(2, 0, LocationState.YELLOW);
 		board.setLocation(2, 1, LocationState.YELLOW);
 		board.setLocation(2, 2, LocationState.YELLOW);
@@ -150,10 +162,11 @@ public class BoardTest {
 		board.setLocation(2, 3, LocationState.YELLOW);
 		board.setLocation(2, 3, LocationState.YELLOW);
 		assertTrue(board.hasColumnLevel(LocationState.YELLOW));
+		assertTrue(board.hasWinner());
+		assertTrue(board.isWinner(LocationState.YELLOW));
 	}
 	@Test
 	public void testHasDiagTopLeft() {
-		Board Board = new Board();
 		board.setLocation(0, 0, LocationState.YELLOW);
 		board.setLocation(1, 1, LocationState.YELLOW);
 		board.setLocation(2, 2, LocationState.YELLOW);
@@ -166,10 +179,11 @@ public class BoardTest {
 		board.setLocation(3, 3, LocationState.YELLOW);
 		board.setLocation(3, 3, LocationState.YELLOW);
 		assertTrue(board.hasRowColumnLevel(LocationState.YELLOW));
+		assertTrue(board.hasWinner());
+		assertTrue(board.isWinner(LocationState.YELLOW));
 	}
 	@Test
 	public void testHasDiagBottomRight() {
-		Board Board = new Board();
 		board.setLocation(0, 3, LocationState.YELLOW);
 		board.setLocation(1, 2, LocationState.YELLOW);
 		board.setLocation(2, 1, LocationState.YELLOW);
@@ -182,10 +196,11 @@ public class BoardTest {
 		board.setLocation(3, 0, LocationState.YELLOW);
 		board.setLocation(3, 0, LocationState.YELLOW);
 		assertTrue(board.hasRowColumnLevel(LocationState.YELLOW));
+		assertTrue(board.hasWinner());
+		assertTrue(board.isWinner(LocationState.YELLOW));
 	}
 	@Test
 	public void testHasDiagBottomLeft() {
-		Board Board = new Board();
 		board.setLocation(3, 0, LocationState.YELLOW);
 		board.setLocation(2, 1, LocationState.YELLOW);
 		board.setLocation(1, 2, LocationState.YELLOW);
@@ -198,10 +213,11 @@ public class BoardTest {
 		board.setLocation(0, 3, LocationState.YELLOW);
 		board.setLocation(0, 3, LocationState.YELLOW);
 		assertTrue(board.hasRowColumnLevel(LocationState.YELLOW));
+		assertTrue(board.hasWinner());
+		assertTrue(board.isWinner(LocationState.YELLOW));
 	}
 	@Test
 	public void testHasDiagTopRight() {
-		Board Board = new Board();
 		board.setLocation(0, 0, LocationState.YELLOW);
 		board.setLocation(1, 1, LocationState.YELLOW);
 		board.setLocation(2, 2, LocationState.YELLOW);
@@ -214,12 +230,12 @@ public class BoardTest {
 		board.setLocation(3, 3, LocationState.YELLOW);
 		board.setLocation(3, 3, LocationState.YELLOW);
 		assertTrue(board.hasRowColumnLevel(LocationState.YELLOW));
+		assertTrue(board.hasWinner());
+		assertTrue(board.isWinner(LocationState.YELLOW));
 	}
 	
 	@Test
-	public void testIsFull(){
-		Board board = new Board();
-		
+	public void testIsFull(){		
 		board.setLocation(0,3, LocationState.YELLOW);
 		board.setLocation(1,2, LocationState.YELLOW);
 		board.setLocation(2,1, LocationState.YELLOW);
@@ -227,6 +243,15 @@ public class BoardTest {
 		assertFalse(board.isFull());
 		assertTrue(board.hasWinner());
 		assertTrue(board.gameOver());
+		
+		for (int j = 0; j < 4; j++){
+			for (int i = 0; i < 4; i++){
+				for(int k =0; k < 4; k++) {
+				board.setLocation(j, i, LocationState.YELLOW);
+				}
+			}
+		}
+		assertTrue(board.isFull());
 	}
 
 }

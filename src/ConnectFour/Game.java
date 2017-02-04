@@ -2,8 +2,11 @@ package ConnectFour;
 
 import java.util.Scanner;
 
+<<<<<<< HEAD
 import ConnectFour.AIPlayer;
 
+=======
+>>>>>>> refs/remotes/origin/master
 import ConnectFour.Board;
 import ConnectFour.Protocol;
 import client.Client;
@@ -29,9 +32,12 @@ public class Game extends Thread {
   the board
   */
 	private Board board;
+//<<<<<<< HEAD
+//=======
 
   //The initial number of turns
 	private int turn;
+//>>>>>>> branch 'master' of https://github.com/IrisWeijers/ConnectFour.git
   
 	private int Numofplayers;
 	private Client client;
@@ -120,7 +126,7 @@ public class Game extends Thread {
 				sleep(100);
 			}
 		}
-		int[] coords = player.determineMove();
+		int[] coords = player.determineMove(board);
 		for (int coord : coords) {
 			if (coord >= board.getDIM() || coord < 0) {
 				throw new IndexOutOfBoundsException("Field does not exist! Try a new move");
@@ -205,6 +211,18 @@ public class Game extends Thread {
     /**
      * Prints the result of the last game. <br>
      */
+//<<<<<<< HEAD
+    private void printResult() {
+        if (board.hasWinner()) {
+            Player winner = board.isWinner(players[0].getLocationState()) ? players[0]
+                    : players[1];
+            System.out.println("Speler " + winner.getName() + " ("
+                    + winner.getLocationState().toString() + ") has won!");
+        } else {
+            System.out.println("Draw. There is no winner!");
+        }
+    }
+//=======
 //    private void printResult() {
 //        if (board.hasWinner()) {
 //            Player winner = board.isWinner(players[0].getLocationState()) ? players[0]
@@ -273,5 +291,6 @@ public class Game extends Thread {
 //		}
 			
 
+>>>>>>> branch 'master' of https://github.com/IrisWeijers/ConnectFour.git
  
 }
