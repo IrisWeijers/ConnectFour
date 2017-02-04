@@ -2,11 +2,10 @@ package ConnectFour;
 
 import java.util.Scanner;
 
-<<<<<<< HEAD
 import ConnectFour.AIPlayer;
 
 =======
->>>>>>> refs/remotes/origin/master
+
 import ConnectFour.Board;
 import ConnectFour.Protocol;
 import client.Client;

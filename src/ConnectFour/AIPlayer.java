@@ -4,7 +4,7 @@ package ConnectFour;
 
 import ConnectFour.Strategy;
 import ConnectFour.LocationState;
-
+import ConnectFour.AIPlayer;
 
 
 
